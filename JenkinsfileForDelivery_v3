@@ -1,0 +1,39 @@
+properties([
+	buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '',
+	daysToKeepStr: '1', numToKeepStr: '1'))
+])
+
+pipeline {
+	agent any
+	environment {
+        OCP_TOKEN = credentials('ocp-nonprod-service-account')
+    }
+	stages {
+	stage('Build') {
+		steps {
+		script {
+			wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
+			def version = sh(
+				returnStdout: true,
+				script: """
+				grep -o 'version := \".*\"' build.sbt | grep -o '[^"version:= \\n]*'
+				"""
+			).trim()
+			def imageName = sh(
+				returnStdout: true,
+				script: "grep -o '^.*packageName .*:= .*' build.sbt | grep -o '[^\" ]*' | tail -1"
+			).trim()
+			def scmTag = "${env.TAGENV}_${version}_${env.GIT_COMMIT}"
+			def sbtPath = tool(name: 'sbt', type: 'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation')
+			sh "${sbtPath}/bin/sbt 'set version := \"${scmTag}\"' clean docker:publish"
+			echo "Building version ${version}"
+			echo sh(returnStdout: true, script: 'env')
+			sh "docker login -p ${env.OCP_TOKEN} -u unused registry.apps-nonprod.p9.pegb.tech:80"
+			sh "docker tag ${imageName}:${scmTag} registry.apps-nonprod.p9.pegb.tech:80/wallet-preprod/backoffice_api:preprod"
+			sh "docker push registry.apps-nonprod.p9.pegb.tech:80/wallet-preprod/backoffice_api:preprod"
+			}
+		}
+		}
+	}
+	}
+}

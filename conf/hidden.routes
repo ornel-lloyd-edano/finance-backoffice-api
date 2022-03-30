@@ -1,0 +1,289 @@
+GET            /customers                                                                      tech.pegb.backoffice.api.customer.controllers.CustomersController.getUserByCriteria(msisdn: Option[String], user_id: Option[tech.pegb.backoffice.util.UUIDLike], alias: Option[String], full_name: Option[String], status: Option[String], any_name: Option[String], partial_match: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+GET            /customers/:id                                                                  tech.pegb.backoffice.api.customer.controllers.CustomersController.getUser(id: java.util.UUID)
+GET            /customers/:customer_id/accounts/:account_id/transactions                       tech.pegb.backoffice.api.customer.controllers.CustomersController.getTransactions(customer_id: java.util.UUID, account_id: java.util.UUID, date_from: Option[tech.pegb.backoffice.api.model.LocalDateTimeFrom], date_to: Option[tech.pegb.backoffice.api.model.LocalDateTimeTo], `type`: Option[String], channel: Option[String], status: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+GET            /customers/:customer_id/payment_options                                         tech.pegb.backoffice.api.customer.controllers.CustomersController.getPaymentOptionsTransactions(customer_id: java.util.UUID)
+
+GET            /customers/:id/accounts                                                         tech.pegb.backoffice.api.customer.controllers.CustomersController.getCustomerAccounts(id: java.util.UUID, primary_account: Option[Boolean], account_type: Option[String], account_number: Option[String], status: Option[String], currency: Option[String], partial_match: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+GET            /customers/:id/accounts/:account_id                                             tech.pegb.backoffice.api.customer.controllers.CustomersController.getCustomerAccountById(id: java.util.UUID, account_id: java.util.UUID)
+PUT            /customers/:id/accounts/:account_id/activate                                    tech.pegb.backoffice.api.customer.controllers.CustomersController.activateCustomerAccount(id: java.util.UUID, account_id: java.util.UUID)
+PUT            /customers/:id/accounts/:account_id/deactivate                                  tech.pegb.backoffice.api.customer.controllers.CustomersController.deactivateCustomerAccount(id: java.util.UUID, account_id: java.util.UUID)
+DELETE         /customers/:id/accounts/:account_id                                             tech.pegb.backoffice.api.customer.controllers.CustomersController.closeCustomerAccount(id: java.util.UUID, account_id: java.util.UUID)
+
+GET            /business_users/:id/velocity_portal_users                                       tech.pegb.backoffice.api.customer.controllers.BusinessUserController.getVelocityPortalUsers(id: java.util.UUID, order_by: Option[String], limit: Option[Int], offset: Option[Int])
+GET            /business_users/:id/velocity_portal_users/:vp_user_id                           tech.pegb.backoffice.api.customer.controllers.BusinessUserController.getVelocityPortalUserById(id: java.util.UUID, vp_user_id: java.util.UUID)
+PUT            /business_users/:id/velocity_portal_users/:vp_user_id/reset_pin                 tech.pegb.backoffice.api.customer.controllers.BusinessUserController.resetVelocityPortalPin(id: java.util.UUID, vp_user_id: java.util.UUID)
+GET            /business_users/:id/contacts                                                    tech.pegb.backoffice.api.customer.controllers.BusinessUserController.getContacts(id: java.util.UUID, order_by: Option[String], limit: Option[Int], offset: Option[Int])
+POST           /business_users/:id/contacts                                                    tech.pegb.backoffice.api.customer.controllers.BusinessUserController.createContact(id: java.util.UUID)
+GET            /business_users/:id/contacts/:contact_id                                        tech.pegb.backoffice.api.customer.controllers.BusinessUserController.getContactsById(id: java.util.UUID, contact_id: java.util.UUID)
+PUT            /business_users/:id/contacts/:contact_id                                        tech.pegb.backoffice.api.customer.controllers.BusinessUserController.updateContact(id: java.util.UUID, contact_id: java.util.UUID)
+GET            /business_users/:id/addresses                                                   tech.pegb.backoffice.api.customer.controllers.BusinessUserController.getAddress(id: java.util.UUID, order_by: Option[String], limit: Option[Int], offset: Option[Int])
+GET            /business_users/:id/addresses/:address_id                                       tech.pegb.backoffice.api.customer.controllers.BusinessUserController.getAddressById(id: java.util.UUID, address_id: java.util.UUID)
+POST           /business_users/:id/addresses                                                   tech.pegb.backoffice.api.customer.controllers.BusinessUserController.createAddress(id: java.util.UUID)
+PUT            /business_users/:id/addresses/:address_id                                       tech.pegb.backoffice.api.customer.controllers.BusinessUserController.updateAddress(id: java.util.UUID, address_id: java.util.UUID)
+
+GET            /business_users/:id/external_accounts                                           tech.pegb.backoffice.api.customer.controllers.CustomerExternalAccountsController.getCustomerExternalAccountsByCriteria(id: java.util.UUID, external_account_id: Option[tech.pegb.backoffice.util.UUIDLike], currency: Option[String], provider_name: Option[String], account_number: Option[String], account_holder: Option[String], partial_match: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+POST           /business_users/:id/external_accounts                                           tech.pegb.backoffice.api.customer.controllers.CustomerExternalAccountsController.createCustomerExternalAccount(id: java.util.UUID)
+GET            /business_users/:id/external_accounts/:external_account_id                      tech.pegb.backoffice.api.customer.controllers.CustomerExternalAccountsController.getCustomerExternalAccount(id: java.util.UUID, external_account_id: java.util.UUID)
+PUT            /business_users/:id/external_accounts/:external_account_id                      tech.pegb.backoffice.api.customer.controllers.CustomerExternalAccountsController.updateCustomerExternalAccount(id: java.util.UUID, external_account_id: java.util.UUID)
+DELETE         /business_users/:id/external_accounts/:external_account_id                      tech.pegb.backoffice.api.customer.controllers.CustomerExternalAccountsController.deleteCustomerExternalAccount(id: java.util.UUID, external_account_id: java.util.UUID)
+
+GET            /external_accounts                                                              tech.pegb.backoffice.api.customer.controllers.ExternalAccountsController.getExternalAccountsByCriteria(customer_id: Option[tech.pegb.backoffice.util.UUIDLike], customer_name: Option[String], currency: Option[String], provider_name: Option[String], account_number: Option[String], account_holder: Option[String], partial_match: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+POST           /external_accounts                                                              tech.pegb.backoffice.api.customer.controllers.ExternalAccountsController.createExternalAccount
+GET            /external_accounts/:id                                                          tech.pegb.backoffice.api.customer.controllers.ExternalAccountsController.getExternalAccount(id: java.util.UUID)
+PUT            /external_accounts/:id                                                          tech.pegb.backoffice.api.customer.controllers.ExternalAccountsController.updateExternalAccount(id: java.util.UUID)
+DELETE         /external_accounts/:id                                                          tech.pegb.backoffice.api.customer.controllers.ExternalAccountsController.deleteExternalAccount(id: java.util.UUID)
+
+GET            /business_users/:id/txn_configs                                                 tech.pegb.backoffice.api.customer.controllers.CustomerTxnConfigController.getCustomerTxnConfigByCriteria(id: java.util.UUID, txn_config_id: Option[tech.pegb.backoffice.util.UUIDLike], currency: Option[String], transaction_type: Option[String], partial_match: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+POST           /business_users/:id/txn_configs                                                 tech.pegb.backoffice.api.customer.controllers.CustomerTxnConfigController.createCustomerTxnConfig(id: java.util.UUID)
+GET            /business_users/:id/txn_configs/:txn_config_id                                  tech.pegb.backoffice.api.customer.controllers.CustomerTxnConfigController.getCustomerTxnConfig(id: java.util.UUID, txn_config_id: java.util.UUID)
+PUT            /business_users/:id/txn_configs/:txn_config_id                                  tech.pegb.backoffice.api.customer.controllers.CustomerTxnConfigController.updateCustomerTxnConfig(id: java.util.UUID, txn_config_id: java.util.UUID)
+DELETE         /business_users/:id/txn_configs/:txn_config_id                                  tech.pegb.backoffice.api.customer.controllers.CustomerTxnConfigController.deleteCustomerTxnConfig(id: java.util.UUID, txn_config_id: java.util.UUID)
+
+
+
+GET            /individual_users                                                               tech.pegb.backoffice.api.customer.controllers.IndividualUserController.getIndividualUsersByCriteria(msisdn: Option[String], user_id: Option[tech.pegb.backoffice.util.UUIDLike], alias: Option[String], full_name: Option[String], status: Option[String], partial_match: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+GET            /individual_users/:id                                                           tech.pegb.backoffice.api.customer.controllers.IndividualUserController.getIndividualUser(id: java.util.UUID)
+PUT            /individual_users/:id/activate                                                  tech.pegb.backoffice.api.customer.controllers.IndividualUserController.activateIndividualUser(id: java.util.UUID)
+DELETE         /individual_users/:id                                                           tech.pegb.backoffice.api.customer.controllers.IndividualUserController.deactivateIndividualUser(id: java.util.UUID)
+
+GET            /individual_users/:customerId/accounts                                          tech.pegb.backoffice.api.customer.controllers.IndividualUserController.getIndividualUserAccounts(customerId: java.util.UUID, primary_account: Option[Boolean], account_type: Option[String], account_number: Option[String], status: Option[String], currency: Option[String])
+GET            /individual_users/:customerId/accounts/:accId                                   tech.pegb.backoffice.api.customer.controllers.IndividualUserController.getIndividualUserAccount(customerId: java.util.UUID, accId: java.util.UUID)
+
+POST           /individual_users/:id/accounts                                                  tech.pegb.backoffice.api.customer.controllers.IndividualUserController.openIndividualUserAccount(id: java.util.UUID)
+
+PUT            /individual_users/:customerId/accounts/:accId/activate                          tech.pegb.backoffice.api.customer.controllers.IndividualUserController.activateIndividualUserAccount(customerId: java.util.UUID, accId: java.util.UUID)
+PUT            /individual_users/:customerId/accounts/:accId/deactivate                        tech.pegb.backoffice.api.customer.controllers.IndividualUserController.deactivateIndividualUserAccount(customerId: java.util.UUID, accId: java.util.UUID)
+DELETE         /individual_users/:customerId/accounts/:accId                                   tech.pegb.backoffice.api.customer.controllers.IndividualUserController.closeIndividualUserAccount(customerId: java.util.UUID, accId: java.util.UUID)
+PUT            /individual_users/:id                                                           tech.pegb.backoffice.api.customer.controllers.IndividualUserController.updateIndividualUser(id: java.util.UUID)
+
+GET            /individual_users/:customerId/documents                                         tech.pegb.backoffice.api.customer.controllers.IndividualUserController.getIndividualUsersDocuments(customerId: java.util.UUID)
+GET            /individual_users/:customerId/documents/:docId                                  tech.pegb.backoffice.api.customer.controllers.IndividualUserController.getIndividualUsersDocumentByDocId(customerId: java.util.UUID, docId: java.util.UUID)
+PUT            /individual_users/:customerId/documents/:docId/reject                           tech.pegb.backoffice.api.customer.controllers.IndividualUserController.rejectDocument(customerId: java.util.UUID, docId: java.util.UUID)
+PUT            /individual_users/:customerId/documents/:docId/approve                          tech.pegb.backoffice.api.customer.controllers.IndividualUserController.approveDocument(customerId: java.util.UUID, docId: java.util.UUID)
+
+GET            /individual_users/:id/wallet_applications                                       tech.pegb.backoffice.api.customer.controllers.IndividualUserController.getIndividualUserWalletApplications(id: java.util.UUID)
+GET            /individual_users/:customerId/wallet_applications/:applicationId                tech.pegb.backoffice.api.customer.controllers.IndividualUserController.getIndividualUserWalletApplicationByApplicationId(customerId:java.util.UUID, applicationId:java.util.UUID)
+PUT            /individual_users/:customerId/wallet_applications/:applicationId/reject         tech.pegb.backoffice.api.customer.controllers.IndividualUserController.rejectWalletApplicationByUserId(customerId: java.util.UUID, applicationId:java.util.UUID)
+PUT            /individual_users/:customerId/wallet_applications/:applicationId/approve        tech.pegb.backoffice.api.customer.controllers.IndividualUserController.approveWalletApplicationByUserId(customerId: java.util.UUID, applicationId:java.util.UUID)
+
+GET            /customers/:customer_id/saving_options                                          tech.pegb.backoffice.api.customer.controllers.SavingOptionsController.getSavingOptionsByCustomerId(customer_id: java.util.UUID, status:Option[String])
+DELETE         /customers/:customer_id/saving_options/:id                                      tech.pegb.backoffice.api.customer.controllers.SavingOptionsController.deactivateSavingOption(customer_id: java.util.UUID, id: java.util.UUID)
+
+GET            /accounts                                                                       tech.pegb.backoffice.api.customer.controllers.AccountController.getAccountsByCriteria(customer_id: Option[tech.pegb.backoffice.util.UUIDLike], customer_full_name: Option[String], any_customer_name: Option[String], msisdn: Option[String], is_main_account: Option[Boolean], currency: Option[String], status: Option[String], account_type: Option[String], account_number: Option[String],  partial_match: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+GET            /accounts/:id                                                                   tech.pegb.backoffice.api.customer.controllers.AccountController.getAccountById(id: java.util.UUID)
+GET            /accounts/account_number/:accnum                                                tech.pegb.backoffice.api.customer.controllers.AccountController.getAccountByAccountNumber(accnum: String)
+GET            /accounts/account_name/:accname                                                 tech.pegb.backoffice.api.customer.controllers.AccountController.getAccountByAccountName(accname: String)
+
+GET            /floats                                                                         tech.pegb.backoffice.api.customer.controllers.AccountController.getFloatAccountAggregations(date_from: Option[tech.pegb.backoffice.api.model.LocalDateTimeFrom], date_to: Option[tech.pegb.backoffice.api.model.LocalDateTimeTo], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+
+POST           /accounts                                                                       tech.pegb.backoffice.api.customer.controllers.AccountController.createAccount()
+PUT            /accounts/:id/activate                                                          tech.pegb.backoffice.api.customer.controllers.AccountController.activateCustomerAccount(id: java.util.UUID)
+PUT            /accounts/:id/close                                                             tech.pegb.backoffice.api.customer.controllers.AccountController.closeCustomerAccount(id: java.util.UUID)
+PUT            /accounts/:id/deactivate                                                        tech.pegb.backoffice.api.customer.controllers.AccountController.deactivateCustomerAccount(id: java.util.UUID)
+
+GET            /documents/:id                                                                  tech.pegb.backoffice.api.document.DocumentMgmtController.getDocument(id: java.util.UUID)
+GET            /documents/:id/file                                                             tech.pegb.backoffice.api.document.DocumentMgmtController.getDocumentFile(id: java.util.UUID)
+GET            /documents                                                                      tech.pegb.backoffice.api.document.DocumentMgmtController.getDocumentsByFilters(status: Option[String], document_type: Option[String], customer_id:Option[tech.pegb.backoffice.util.UUIDLike], customer_full_name: Option[String],customer_msisdn: Option[String], start_date: Option[java.time.LocalDate], end_date: Option[java.time.LocalDate], is_checked_at: Option[Boolean], partial_match: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+POST           /documents                                                                      tech.pegb.backoffice.api.document.DocumentMgmtController.createDocument()
+#TODO test maker checker for document file upload, may be not required becuz post /documents will pass through maker checker
+POST           /documents/:id/file                                                             tech.pegb.backoffice.api.document.DocumentMgmtController.uploadDocumentFile(id: java.util.UUID)
+PUT            /documents/:id/approve                                                          tech.pegb.backoffice.api.document.DocumentMgmtController.approveDocument(id: java.util.UUID)
+PUT            /documents/:id/reject                                                           tech.pegb.backoffice.api.document.DocumentMgmtController.rejectDocument(id: java.util.UUID)
+
+GET            /types                                                                          tech.pegb.backoffice.api.types.controllers.TypesController.getAllTypes
+GET            /types/:kind                                                                    tech.pegb.backoffice.api.types.controllers.TypesController.getTypes(kind: String)
+
+GET            /wallet_applications/:id                                                        tech.pegb.backoffice.api.application.WalletApplicationController.getWalletApplication(id: java.util.UUID)
+GET            /wallet_applications                                                            tech.pegb.backoffice.api.application.WalletApplicationController.getWalletApplicationsByCriteria(status: Option[String], name: Option[String], full_name: Option[String], msisdn: Option[String], national_id: Option[String], start_date:Option[java.time.LocalDate], end_date:Option[java.time.LocalDate], order_by:Option[String], limit: Option[Int], offset: Option[Int])
+GET            /wallet_applications/:id/documents                                              tech.pegb.backoffice.api.application.WalletApplicationController.getDocumentsByWalletApplication(id: java.util.UUID)
+PUT            /wallet_applications/:id/approve                                                tech.pegb.backoffice.api.application.WalletApplicationController.approveWalletApplication(id: java.util.UUID)
+PUT            /wallet_applications/:id/reject                                                 tech.pegb.backoffice.api.application.WalletApplicationController.rejectWalletApplication(id: java.util.UUID)
+
+
+GET            /currency_exchanges                                                             tech.pegb.backoffice.api.currencyexchange.CurrencyExchangeController.getCurrencyExchangeByCriteria(id: Option[tech.pegb.backoffice.util.UUIDLike], currency_code: Option[String], base_currency: Option[String], provider: Option[String], status: Option[String], partial_match: Option[String], order_by:Option[String], limit: Option[Int], offset: Option[Int])
+GET            /currency_exchanges/:id                                                         tech.pegb.backoffice.api.currencyexchange.CurrencyExchangeController.getCurrencyExchange(id: java.util.UUID)
+PUT            /currency_exchanges/:id/activate                                                tech.pegb.backoffice.api.currencyexchange.CurrencyExchangeController.activateFX(id: java.util.UUID)
+PUT            /currency_exchanges/:id/deactivate                                              tech.pegb.backoffice.api.currencyexchange.CurrencyExchangeController.deactivateFX(id: java.util.UUID)
+GET            /currency_exchanges/:id/spreads                                                 tech.pegb.backoffice.api.currencyexchange.CurrencyExchangeController.getCurrencyExchangeSpreads(id: java.util.UUID, transaction_type: Option[String], channel: Option[String], institution: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+POST           /currency_exchanges/:id/spreads                                                 tech.pegb.backoffice.api.currencyexchange.CurrencyExchangeController.createSpreads(id: java.util.UUID)
+
+GET            /currency_exchanges/:fxId/spreads/:id                                           tech.pegb.backoffice.api.currencyexchange.SpreadsController.getCurrencyExchangeSpread(fxId: java.util.UUID, id:java.util.UUID)
+PUT            /currency_exchanges/:fxId/spreads/:id                                           tech.pegb.backoffice.api.currencyexchange.CurrencyExchangeController.updateCurrencyExchangeSpread(id: java.util.UUID, fxId: java.util.UUID)
+DELETE         /currency_exchanges/:fxId/spreads/:id                                           tech.pegb.backoffice.api.currencyexchange.CurrencyExchangeController.deleteCurrencyExchangeSpread(id: java.util.UUID, fxId: java.util.UUID)
+PUT            /currency_exchanges/activate                                                    tech.pegb.backoffice.api.currencyexchange.CurrencyExchangeController.batchActivateFX
+PUT            /currency_exchanges/deactivate                                                  tech.pegb.backoffice.api.currencyexchange.CurrencyExchangeController.batchDeactivateFX
+
+PUT            /currency_rates/:id                                                             tech.pegb.backoffice.api.currencyrate.CurrencyRateController.update(id: Int)
+
+GET            /spreads/:id                                                                    tech.pegb.backoffice.api.currencyexchange.SpreadsController.getSpread(id: java.util.UUID)
+GET            /spreads                                                                        tech.pegb.backoffice.api.currencyexchange.SpreadsController.getSpreadsByCriteria(id: Option[tech.pegb.backoffice.util.UUIDLike], currency_exchange_id: Option[tech.pegb.backoffice.util.UUIDLike], currency: Option[String], transaction_type: Option[String], channel: Option[String], institution: Option[String], partial_match: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+POST           /spreads                                                                        tech.pegb.backoffice.api.currencyexchange.SpreadsController.createSpreads()
+
+GET            /transactions                                                                   tech.pegb.backoffice.api.transaction.TransactionController.getTransactions(any_customer_name: Option[String], customer_id: Option[tech.pegb.backoffice.util.UUIDLike], account_id: Option[tech.pegb.backoffice.util.UUIDLike], date_from: Option[tech.pegb.backoffice.api.model.LocalDateTimeFrom], date_to: Option[tech.pegb.backoffice.api.model.LocalDateTimeTo], type: Option[String], channel: Option[String], status: Option[String], partial_match: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+GET            /transactions/:id                                                               tech.pegb.backoffice.api.transaction.TransactionController.getTransactionById(id: String)
+
+PUT            /transactions/:id/cancel                                                        tech.pegb.backoffice.api.transaction.TransactionController.cancelTransaction(id: String)
+PUT            /transactions/:id/revert                                                        tech.pegb.backoffice.api.transaction.TransactionController.revertTransaction(id: String)
+
+POST           /v1/core/events                                                                 tech.pegb.backoffice.api.communication.controllers.WalletCoreEventsController.receiveCoreEvents()
+
+GET            /limit_profiles                                                                 tech.pegb.backoffice.api.limit.LimitProfileController.getLimitProfileByCriteria(id: Option[tech.pegb.backoffice.util.UUIDLike], limit_type: Option[String], user_type: Option[String], tier: Option[String], subscription: Option[String], transaction_type: Option[String], channel: Option[String], other_party: Option[String], instrument: Option[String], interval: Option[String], currency_code: Option[String], partial_match: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+GET            /limit_profiles/:id                                                             tech.pegb.backoffice.api.limit.LimitProfileController.getLimitProfile(id: java.util.UUID)
+POST           /limit_profiles                                                                 tech.pegb.backoffice.api.limit.LimitProfileController.createLimitProfile()
+PUT            /limit_profiles/:id                                                             tech.pegb.backoffice.api.limit.LimitProfileController.updateLimitProfile(id: java.util.UUID)
+DELETE         /limit_profiles/:id                                                             tech.pegb.backoffice.api.limit.LimitProfileController.deleteLimitProfile(id: java.util.UUID)
+
+GET            /fee_profiles                                                                   tech.pegb.backoffice.api.fee.FeeProfileController.getFeeProfileByCriteria(id: Option[tech.pegb.backoffice.util.UUIDLike], fee_type: Option[String], user_type: Option[String], tier: Option[String], subscription_type: Option[String], transaction_type: Option[String], channel: Option[String], other_party: Option[String], instrument: Option[String], calculation_method: Option[String], currency_code: Option[String], fee_method: Option[String], tax_included: Option[String], partial_match: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+GET            /fee_profiles/:id                                                               tech.pegb.backoffice.api.fee.FeeProfileController.getFeeProfile(id: java.util.UUID)
+POST           /fee_profiles                                                                   tech.pegb.backoffice.api.fee.FeeProfileController.createFeeProfile()
+PUT            /fee_profiles/:id                                                               tech.pegb.backoffice.api.fee.FeeProfileController.updateFeeProfile(id: java.util.UUID)
+DELETE         /fee_profiles/:id                                                               tech.pegb.backoffice.api.fee.FeeProfileController.deleteFeeProfile(id: java.util.UUID)
+
+GET            /commission_profiles                                                            tech.pegb.backoffice.api.commission.controllers.CommissionProfileController.getCommissionProfileByCriteria(id: Option[tech.pegb.backoffice.util.UUIDLike], business_type: Option[String], tier: Option[String], subscription_type: Option[String], transaction_type: Option[String], channel: Option[String], instrument: Option[String], currency: Option[String], calculation_method: Option[String], partial_match: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+GET            /commission_profiles/:id                                                        tech.pegb.backoffice.api.commission.controllers.CommissionProfileController.getCommissionProfile(id: java.util.UUID)
+POST           /commission_profiles                                                            tech.pegb.backoffice.api.commission.controllers.CommissionProfileController.createCommissionProfile()
+PUT            /commission_profiles/:id                                                        tech.pegb.backoffice.api.commission.controllers.CommissionProfileController.updateCommissionProfile(id: java.util.UUID)
+DELETE         /commission_profiles/:id                                                        tech.pegb.backoffice.api.commission.controllers.CommissionProfileController.deleteCommissionProfile(id: java.util.UUID)
+
+GET            /strings                                                                        tech.pegb.backoffice.api.i18n.I18nStringController.getI18nString(id: Option[Int], key: Option[String], locale: Option[String], platform: Option[String], `type`: Option[String], explanation: Option[String], partial_match: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int] )
+GET            /strings/:id                                                                    tech.pegb.backoffice.api.i18n.I18nStringController.getI8nStringById(id: Int)
+POST           /strings                                                                        tech.pegb.backoffice.api.i18n.I18nStringController.createI18nString()
+POST           /strings/bulk                                                                   tech.pegb.backoffice.api.i18n.I18nStringController.bulkI18nStringCreate()
+PUT            /strings/:id                                                                    tech.pegb.backoffice.api.i18n.I18nStringController.updateI18nString(id: Int)
+DELETE         /strings/:id                                                                    tech.pegb.backoffice.api.i18n.I18nStringController.deleteI18nString(id: Int)
+GET            /i18n                                                                           tech.pegb.backoffice.api.i18n.I18nStringController.getI18nDictionary(platform: Option[String])
+
+GET            /currencies                                                                     tech.pegb.backoffice.api.currency.CurrencyController.fetchCurrenciesWithId
+GET            /account_types                                                                  tech.pegb.backoffice.api.types.controllers.TypesController.getAccountTypes
+
+
+GET            /manual_transactions                                                            tech.pegb.backoffice.api.transaction.ManualTransactionController.getManualTransactions(id: Option[tech.pegb.backoffice.util.UUIDLike], date_from: Option[tech.pegb.backoffice.api.model.LocalDateTimeFrom], date_to: Option[tech.pegb.backoffice.api.model.LocalDateTimeTo], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+POST           /manual_transactions                                                            tech.pegb.backoffice.api.transaction.ManualTransactionController.createManualTransaction
+GET            /manual_transactions/currency_exchange_history                                  tech.pegb.backoffice.api.transaction.ManualTransactionController.getSettlementFxHistory(provider: Option[String], from_currency: Option[String], to_currency: Option[String], date_from: Option[tech.pegb.backoffice.api.model.LocalDateTimeFrom], date_to: Option[tech.pegb.backoffice.api.model.LocalDateTimeTo], order_by: Option[String], limit: Option[Int], offset: Option[Int] )
+GET            /manual_transactions/frequently_used_accounts                                   tech.pegb.backoffice.api.transaction.ManualTransactionController.getSettlementRecentAccount(limit: Option[Int], offset: Option[Int])
+
+GET            /parameters/:id                                                                 tech.pegb.backoffice.api.parameter.ParameterController.getParameterById(id: java.util.UUID)
+GET            /parameters                                                                     tech.pegb.backoffice.api.parameter.ParameterController.getParametersByCriteria(key: Option[String], metadata_id: Option[String], platforms: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+POST           /parameters                                                                     tech.pegb.backoffice.api.parameter.ParameterController.createParameter
+PUT            /parameters/:id                                                                 tech.pegb.backoffice.api.parameter.ParameterController.updateParameter(id: java.util.UUID)
+GET            /metadata                                                                       tech.pegb.backoffice.api.parameter.ParameterController.getMetadata
+GET            /metadata/:id                                                                   tech.pegb.backoffice.api.parameter.ParameterController.getMetadataById(id: String)
+
+GET            /notifications                                                                  tech.pegb.backoffice.api.notification.NotificationManagementController.getNotificationsByCriteria(id: Option[tech.pegb.backoffice.util.UUIDLike], template_id: Option[tech.pegb.backoffice.util.UUIDLike], user_id: Option[tech.pegb.backoffice.util.UUIDLike], operationId: Option[String], channels: Option[String], title: Option[String], content: Option[String], address: Option[String], status: Option[String], created_at_from: Option[tech.pegb.backoffice.api.model.LocalDateTimeFrom], created_at_to: Option[tech.pegb.backoffice.api.model.LocalDateTimeTo], partial_match: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+
+GET            /notifications/:id                                                              tech.pegb.backoffice.api.notification.NotificationManagementController.getNotificationById(id: java.util.UUID)
+
+GET            /notification_templates                                                         tech.pegb.backoffice.api.notification.NotificationManagementController.getNotificationTemplatesByCriteria(id: Option[tech.pegb.backoffice.util.UUIDLike], name: Option[String], channel: Option[String], created_at_from: Option[tech.pegb.backoffice.api.model.LocalDateTimeFrom], created_at_to: Option[tech.pegb.backoffice.api.model.LocalDateTimeTo], is_active: Option[Boolean], partial_match: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+
+GET            /notification_templates/:id                                                     tech.pegb.backoffice.api.notification.NotificationManagementController.getNotificationTemplateById(id: java.util.UUID)
+
+POST           /notification_templates                                                         tech.pegb.backoffice.api.notification.NotificationManagementController.createNotificationTemplate
+
+PUT            /notification_templates/:id                                                     tech.pegb.backoffice.api.notification.NotificationManagementController.updateNotificationTemplate(id: java.util.UUID)
+
+PUT            /notification_templates/:id/activate                                            tech.pegb.backoffice.api.notification.NotificationManagementController.activateNotificationTemplate(id: java.util.UUID)
+
+PUT            /notification_templates/:id/deactivate                                          tech.pegb.backoffice.api.notification.NotificationManagementController.deactivateNotificationTemplate(id: java.util.UUID)
+
+GET            /currency_rates                                                                 tech.pegb.backoffice.api.currencyrate.CurrencyRateController.getCurrencyRate(order_by: Option[String], show_empty: Option[Boolean])
+GET            /currency_rates/:id                                                             tech.pegb.backoffice.api.currencyrate.CurrencyRateController.getCurrencyRateById(id: Long)
+
+POST           /tasks                                                                          tech.pegb.backoffice.api.makerchecker.MakerCheckerMgmtController.createTask
+GET            /tasks                                                                          tech.pegb.backoffice.api.makerchecker.MakerCheckerMgmtController.getTasksByCriteria(module: Option[String], status: Option[String], date_from: Option[tech.pegb.backoffice.api.model.LocalDateTimeFrom], date_to: Option[tech.pegb.backoffice.api.model.LocalDateTimeTo], is_read_only: Option[Boolean], partial_match: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+GET            /tasks/:id                                                                      tech.pegb.backoffice.api.makerchecker.MakerCheckerMgmtController.getTask(id: java.util.UUID)
+PUT            /tasks/:id/approve                                                              tech.pegb.backoffice.api.makerchecker.MakerCheckerMgmtController.approveTask(id: java.util.UUID)
+PUT            /tasks/:id/reject                                                               tech.pegb.backoffice.api.makerchecker.MakerCheckerMgmtController.rejectTask(id: java.util.UUID)
+
+GET            /scopes                                                                         tech.pegb.backoffice.api.auth.controllers.ScopeController.getAllScopes(order_by: Option[String], limit: Option[Int], offset: Option[Int])
+GET            /scopes/:id                                                                     tech.pegb.backoffice.api.auth.controllers.ScopeController.getScopeById(id: java.util.UUID)
+POST           /scopes                                                                         tech.pegb.backoffice.api.auth.controllers.ScopeController.createScope(reactivate: Option[Boolean])
+PUT            /scopes/:id                                                                     tech.pegb.backoffice.api.auth.controllers.ScopeController.updateScopeById(id: java.util.UUID)
+DELETE         /scopes/:id                                                                     tech.pegb.backoffice.api.auth.controllers.ScopeController.deleteScopeById(id: java.util.UUID)
+
+GET            /permissions                                                                     tech.pegb.backoffice.api.auth.controllers.PermissionController.getAllPermissions(business_unit_id: Option[java.util.UUID], role_id: Option[java.util.UUID], user_id: Option[java.util.UUID], partial_match: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+GET            /permissions/:id                                                                 tech.pegb.backoffice.api.auth.controllers.PermissionController.getPermissionById(id: java.util.UUID)
+POST           /permissions                                                                     tech.pegb.backoffice.api.auth.controllers.PermissionController.createPermission(reactivate: Option[Boolean])
+PUT            /permissions/:id                                                                 tech.pegb.backoffice.api.auth.controllers.PermissionController.updatePermissionById(id: java.util.UUID)
+DELETE         /permissions/:id                                                                 tech.pegb.backoffice.api.auth.controllers.PermissionController.deletePermissionById(id: java.util.UUID)
+
+
+#mock endpoints
+POST           /v1/backoffice/events                                                           tech.pegb.backoffice.api.mock.CoreMockController.notifyCore
+PATCH          /v1/backoffice/currency_rates/:id                                               tech.pegb.backoffice.api.mock.CoreMockController.updateCurrencyRateStatus(id: Int)
+
+
+# Swagger API
+
+OPTIONS        /*url                                                                               tech.pegb.backoffice.api.cors.OptionsController.options(url: String)
+
+# Reporting APIs V2
+POST           /report_definitions                                                             tech.pegb.backoffice.api.reportsv2.controllers.ReportDefinitionController.createReportDefinition
+GET            /report_definitions                                                             tech.pegb.backoffice.api.reportsv2.controllers.ReportDefinitionController.getReportDefinition(name: Option[String], partial_match: Option[String], order_by: Option[String] , limit: Option[Int] , offset:  Option[Int])
+GET            /report_definitions/:id                                                         tech.pegb.backoffice.api.reportsv2.controllers.ReportDefinitionController.getReportDefinitionById(id: java.util.UUID)
+PUT            /report_definitions/:id                                                         tech.pegb.backoffice.api.reportsv2.controllers.ReportDefinitionController.updateReportDefinition(id: java.util.UUID)
+DELETE         /report_definitions/:id                                                         tech.pegb.backoffice.api.reportsv2.controllers.ReportDefinitionController.deleteReportDefinitionById(id: java.util.UUID)
+GET            /reports/:id                                                                    tech.pegb.backoffice.api.reportsv2.controllers.ReportDataController.getReportData(id: java.util.UUID)
+
+GET            /routes                                                                         tech.pegb.backoffice.api.reportsv2.controllers.impl.ReportResourcesController.getAvailableReportsForUser
+
+GET            /internal_recons                                                                tech.pegb.backoffice.api.recon.controllers.impl.ReconciliationController.getInternalRecon(id: Option[String], user_id: Option[String], any_customer_name: Option[String], account_number: Option[String], acc_type: Option[String], status: Option[String], start_recon_date: Option[tech.pegb.backoffice.api.model.LocalDateTimeFrom], end_recon_date: Option[tech.pegb.backoffice.api.model.LocalDateTimeTo], order_by: Option[String], partial_match: Option[String], limit: Option[Int], offset: Option[Int])
+GET            /internal_recons/incidents                                                      tech.pegb.backoffice.api.recon.controllers.impl.ReconciliationController.getInternalReconIncidents(recon_id: Option[String], account_number: Option[String], start_recon_date: Option[tech.pegb.backoffice.api.model.LocalDateTimeFrom], end_recon_date: Option[tech.pegb.backoffice.api.model.LocalDateTimeTo], order_by: Option[String], partial_match: Option[String], limit: Option[Int], offset: Option[Int])
+GET            /internal_recons/:id                                                            tech.pegb.backoffice.api.recon.controllers.impl.ReconciliationController.getReconciliationSummaryById(id: String)
+PUT            /internal_recons/:id                                                            tech.pegb.backoffice.api.recon.controllers.impl.ReconciliationController.updateReconStatus(id: String)
+
+POST           /business_units                                                                 tech.pegb.backoffice.api.auth.controllers.BusinessUnitController.create(reactivate: Option[Boolean])
+GET            /business_units                                                                 tech.pegb.backoffice.api.auth.controllers.BusinessUnitController.findAll(order_by: Option[String], limit:Option[Int], offset:Option[Int])
+GET            /business_units/:id                                                             tech.pegb.backoffice.api.auth.controllers.BusinessUnitController.findById(id: java.util.UUID)
+DELETE         /business_units/:id                                                             tech.pegb.backoffice.api.auth.controllers.BusinessUnitController.delete(id: java.util.UUID)
+PUT            /business_units/:id                                                             tech.pegb.backoffice.api.auth.controllers.BusinessUnitController.update(id: java.util.UUID)
+
+GET            /roles                                                                          tech.pegb.backoffice.api.auth.controllers.RoleController.getRoles(order_by: Option[String], limit: Option[Int], offset: Option[Int])
+GET            /roles/:id                                                                      tech.pegb.backoffice.api.auth.controllers.RoleController.getRoleById(id: java.util.UUID)
+POST           /roles                                                                          tech.pegb.backoffice.api.auth.controllers.RoleController.createRole(reactivate: Option[Boolean])
+PUT            /roles/:id                                                                      tech.pegb.backoffice.api.auth.controllers.RoleController.updateRole(id: java.util.UUID)
+DELETE         /roles/:id                                                                      tech.pegb.backoffice.api.auth.controllers.RoleController.deleteRole(id: java.util.UUID)
+
+POST            /login                                                                         tech.pegb.backoffice.api.auth.controllers.AuthenticationController.login
+PUT            /update_password                                                                tech.pegb.backoffice.api.auth.controllers.AuthenticationController.updatePassword
+POST           /reset_password                                                                 tech.pegb.backoffice.api.auth.controllers.AuthenticationController.resetPassword
+GET            /reset_password/:token                                                          tech.pegb.backoffice.api.auth.controllers.AuthenticationController.validateResetPasswordByToken(token: String)
+PUT            /reset_password                                                                 tech.pegb.backoffice.api.auth.controllers.AuthenticationController.updateResetPassword
+GET            /status                                                                         tech.pegb.backoffice.api.auth.controllers.AuthenticationController.getStatus
+GET            /validate_token/`                                                               tech.pegb.backoffice.api.auth.controllers.AuthenticationController.validateToken
+
+GET            /back_office_users                                                              tech.pegb.backoffice.api.auth.controllers.BackOfficeUserController.getBackOfficeUsers(user_name: Option[String], first_name: Option[String], last_name: Option[String], email: Option[String], phone_number: Option[String], role_id: Option[String], business_unit_id: Option[String], scope_id: Option[String], partial_match: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+GET            /back_office_users/:id                                                          tech.pegb.backoffice.api.auth.controllers.BackOfficeUserController.getBackOfficeUserById(id: java.util.UUID)
+POST           /back_office_users                                                              tech.pegb.backoffice.api.auth.controllers.BackOfficeUserController.createBackOfficeUser(reactivate: Option[Boolean])
+PUT            /back_office_users/:id                                                          tech.pegb.backoffice.api.auth.controllers.BackOfficeUserController.updateBackOfficeUser(id: java.util.UUID)
+DELETE         /back_office_users/:id                                                          tech.pegb.backoffice.api.auth.controllers.BackOfficeUserController.deleteBackOfficeUser(id: java.util.UUID)
+
+GET            /business_user_applications                                                     tech.pegb.backoffice.api.businessuserapplication.controllers.BusinessUserApplicationController.getBusinessUserApplication(business_name: Option[String], brand_name: Option[String], business_category: Option[String], stage: Option[String], status: Option[String], phone_number: Option[String], email: Option[String], date_from: Option[tech.pegb.backoffice.api.model.LocalDateTimeFrom], date_to: Option[tech.pegb.backoffice.api.model.LocalDateTimeTo], partial_match: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+GET            /business_user_applications/:id                                                 tech.pegb.backoffice.api.businessuserapplication.controllers.BusinessUserApplicationController.getBusinessUserApplicationById(id: java.util.UUID)
+POST           /business_user_applications/:id                                                 tech.pegb.backoffice.api.businessuserapplication.controllers.BusinessUserApplicationController.createBusinessUserApplication(id: java.util.UUID)
+GET            /business_user_applications/:id/stage/identity_info                             tech.pegb.backoffice.api.businessuserapplication.controllers.BusinessUserApplicationController.getBusinessUserApplicationById(id: java.util.UUID)
+
+POST           /business_user_applications/:id/stage/config                                    tech.pegb.backoffice.api.businessuserapplication.controllers.BusinessUserApplicationController.createBusinessUserApplicationConfig(id: java.util.UUID)
+GET            /business_user_applications/:id/stage/config                                    tech.pegb.backoffice.api.businessuserapplication.controllers.BusinessUserApplicationController.getBusinessUserApplicationConfig(id: java.util.UUID)
+
+POST           /business_user_applications/:id/stage/contact_info                              tech.pegb.backoffice.api.businessuserapplication.controllers.BusinessUserApplicationController.createBusinessUserApplicationContactInfo(id: java.util.UUID)
+GET            /business_user_applications/:id/stage/contact_info                              tech.pegb.backoffice.api.businessuserapplication.controllers.BusinessUserApplicationController.getBusinessUserApplicationContactInfo(id: java.util.UUID)
+
+POST           /business_user_applications/:id/stage/documents                                 tech.pegb.backoffice.api.businessuserapplication.controllers.BusinessUserApplicationController.createBusinessUserApplicationDocument(id: java.util.UUID)
+GET            /business_user_applications/:id/stage/documents                                 tech.pegb.backoffice.api.businessuserapplication.controllers.BusinessUserApplicationController.getBusinessUserApplicationDocuments(id: java.util.UUID)
+
+PUT            /business_user_applications/:id/cancel                                          tech.pegb.backoffice.api.businessuserapplication.controllers.BusinessUserApplicationController.cancelBusinessUserApplication(id: java.util.UUID)
+PUT            /business_user_applications/:id/reject                                          tech.pegb.backoffice.api.businessuserapplication.controllers.BusinessUserApplicationController.rejectBusinessUserApplication(id: java.util.UUID)
+PUT            /business_user_applications/:id/send_for_correction                             tech.pegb.backoffice.api.businessuserapplication.controllers.BusinessUserApplicationController.sendForCorrectionBusinessUserApplication(id: java.util.UUID)
+PUT            /business_user_applications/:id/submit                                          tech.pegb.backoffice.api.businessuserapplication.controllers.BusinessUserApplicationController.submitBusinessUserApplication(id: java.util.UUID)
+PUT            /business_user_applications/:id/approve                                         tech.pegb.backoffice.api.businessuserapplication.controllers.BusinessUserApplicationController.approveBusinessUserApplication(id: java.util.UUID)
+
+GET            /revenue                                                                        tech.pegb.backoffice.api.aggregations.controllers.RevenueController.getAllRevenue(currency_code: String, date_from: Option[tech.pegb.backoffice.api.model.LocalDateTimeFrom], date_to: Option[tech.pegb.backoffice.api.model.LocalDateTimeTo])
+GET            /revenue/aggregation/:aggregation                                               tech.pegb.backoffice.api.aggregations.controllers.RevenueController.getRevenueByAggregationType(aggregation: String, currency_code: String, date_from: Option[tech.pegb.backoffice.api.model.LocalDateTimeFrom], date_to: Option[tech.pegb.backoffice.api.model.LocalDateTimeTo])
+GET            /revenue/transaction_totals                                                     tech.pegb.backoffice.api.aggregations.controllers.RevenueController.getTransactionTotals(currency_code: String, date_from: Option[tech.pegb.backoffice.api.model.LocalDateTimeFrom], date_to: Option[tech.pegb.backoffice.api.model.LocalDateTimeTo])
+
+GET            /floats/totals                                                                  tech.pegb.backoffice.api.aggregations.controllers.FloatController.getTotalAggregations(currency_code: String)
+GET            /floats/institutions                                                            tech.pegb.backoffice.api.aggregations.controllers.FloatController.getInstitutionStats(currency_code: String)
+GET            /floats/institutions/:institution/trends                                        tech.pegb.backoffice.api.aggregations.controllers.FloatController.getInstitutionTrendsGraph(institution: String, currency_code: String, date_from: Option[tech.pegb.backoffice.api.model.LocalDateTimeFrom], date_to: Option[tech.pegb.backoffice.api.model.LocalDateTimeTo], frequency: String)
+PUT            /floats/institutions/:institution                                               tech.pegb.backoffice.api.aggregations.controllers.FloatController.updatePercentage(institution: String)
+
+#GET           /business_user_applications/:id/identity_info                                   tech.pegb.backoffice.api.businessuserapplication.controllers.BusinessUserApplicationController.getBusinessUserApplicationById(id: java.util.UUID)

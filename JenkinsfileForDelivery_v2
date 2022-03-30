@@ -1,0 +1,38 @@
+properties([
+	buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '',
+	daysToKeepStr: '1', numToKeepStr: '1'))
+])
+
+pipeline {
+	agent any
+	stages {
+	stage('Build') {
+		steps {
+		script {
+			wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
+			def version = sh(
+				returnStdout: true,
+				script: """
+				grep -o 'version := \".*\"' build.sbt | grep -o '[^"version:= \\n]*'
+				"""
+			).trim()
+			def imageName = sh(
+				returnStdout: true,
+				script: "grep -o '^.*packageName .*:= .*' build.sbt | grep -o '[^\" ]*' | tail -1"
+			).trim()
+			def scmTag = "${env.TAGENV}_${version}_${env.GIT_COMMIT}"
+			def sbtPath = tool(name: 'main', type: 'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation')
+			sh "${sbtPath}/bin/sbt 'set version := \"${scmTag}\"' clean test it:test docker:publish"
+			echo "Building version ${version}"
+			sh """
+				git tag -am 'New release build' ${scmTag}\\
+				&& git push --force origin ${scmTag}
+			"""
+			echo sh(returnStdout: true, script: 'env')
+			rancher confirm: true, credentialId: "${env.RANCHER_CREDENTIAL}", endpoint: "${env.RANCHER_ENDPOINT}", environmentId: "${env.RANCHER_PROJECT_ID}", timeout: 120, image: "${imageName}:${scmTag}", service: 'api/backoffice-api'
+			}
+		}
+		}
+	}
+	}
+}

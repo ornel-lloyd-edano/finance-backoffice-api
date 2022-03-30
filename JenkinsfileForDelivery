@@ -1,0 +1,49 @@
+properties([
+  buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '',
+    daysToKeepStr: '1', numToKeepStr: '1'))
+])
+
+pipeline {
+  agent any
+  triggers {
+    pollSCM('*/5 * * * *')
+  }
+  stages {
+    stage('Build') {
+      steps {
+        script {
+          def version = sh(
+            returnStdout: true,
+            script: """
+            grep -o 'version := \".*\"' build.sbt | grep -o '[^"version:= \\n]*'
+            """
+          ).trim()
+          def imageName = sh(
+            returnStdout: true,
+            script: "grep -o '^.*packageName .*:= .*' build.sbt | grep -o '[^\" ]*' | tail -1"
+          ).trim()
+          def scmTag = "${version}_${env.GIT_COMMIT}"
+          def sbtPath = tool(name: 'main', type: 'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation')
+          // sh "${sbtPath}/bin/sbt 'set version := \"${scmTag}\"' clean test it:test docker:publish"
+          sh "${sbtPath}/bin/sbt 'set version := \"${scmTag}\"' clean docker:publish" //remove the test because george is asking about the image, you can enable this later
+          echo "Building version ${version}"
+          sh """
+            (git tag -am 'New release build' ${scmTag} || true) && (git push origin ${scmTag} || true)
+          """
+          rancher confirm: true, credentialId: 'rancher', endpoint: "${RANCHER_ENDPOINT}",
+                  environmentId: "${RANCHER_PROJECT_ID}", environments: '', ports: '', timeout: 120,
+                  image: "${imageName}:${scmTag}", service: 'api/backoffice-api'
+
+          def ImageNameTrimmed = sh(
+            returnStdout: true,
+            script: "echo ${imageName} | cut -d / -f2"
+          ).trim()
+
+          echo "Pushing to AWS | ${imageName}:${scmTag} to ${env.DOCKER_PEGB_REGISTRY_AWS}"
+          sh "docker tag ${imageName}:${scmTag} ${env.DOCKER_PEGB_REGISTRY_AWS}/${ImageNameTrimmed}:${scmTag}"
+          sh "docker push ${env.DOCKER_PEGB_REGISTRY_AWS}/${ImageNameTrimmed}:${scmTag}"
+        }
+      }
+    }
+  }
+}

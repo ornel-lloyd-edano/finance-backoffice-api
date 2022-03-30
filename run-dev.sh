@@ -1,0 +1,1 @@
+sbt -DDATABASE_USER=dev -DDATABASE_PASSWORD=51pegasib -DDATABASE_URL='jdbc:mysql://172.30.1.43:3306/pegb_wallet_db?autoReconnect=true&characterEncoding=utf-8&connectionCollation=utf8_unicode_ci&useSSL=false&useAffectedRows=true' -mem 384 run

@@ -1,0 +1,147 @@
+package tech.pegb.backoffice.dao
+
+import java.time.LocalDateTime
+
+import org.scalamock.scalatest.MockFactory
+//import org.scalatest.Ignore
+import tech.pegb.backoffice.dao.types.entity.{Description, DescriptionToUpsert, DescriptionType}
+import tech.pegb.backoffice.dao.types.sql.TypesSqlDao
+import tech.pegb.core.PegBTestApp
+
+//@Ignore
+class TypesDaoSpec extends PegBTestApp with MockFactory {
+
+  val dao = inject[TypesSqlDao]
+
+  override def initSql =
+    s"""
+       |CREATE TABLE IF NOT EXISTS description_types(
+       |id INT AUTO_INCREMENT,
+       |type varchar(20) NOT NULL,
+       |created_at DATETIME NOT NULL,
+       |created_by varchar(36) NOT NULL,
+       |updated_at DATETIME DEFAULT NULL,
+       |updated_by varchar(36) DEFAULT NULL,
+       |PRIMARY KEY(id)
+       |);
+       |
+       |CREATE TABLE IF NOT EXISTS descriptions(
+       |id INT AUTO_INCREMENT,
+       |name varchar(36) NOT NULL,
+       |description varchar(128) DEFAULT NULL,
+       |value_id INT NOT NULL,
+       |PRIMARY KEY(id),
+       |CONSTRAINT `fk_description_types_id` FOREIGN KEY (`value_id`) REFERENCES `description_types` (`id`)
+       |);
+     """.stripMargin
+
+  "TypesSqlDao" should {
+    "insert description_types and descriptions" in {
+      val descriptionType = DescriptionType(
+        1,
+        "Ujali", createdAt = LocalDateTime.of(2019, 1, 1, 0, 0), "Lloyd", None, None)
+      val description = Seq(
+        DescriptionToUpsert(
+          id = None,
+          name = "Happy Ujali",
+          description = Option("when Alex makes a joke")),
+        DescriptionToUpsert(
+          id = None,
+          name = "Sad Ujali",
+          description = Option("when cow gets eaten")),
+        DescriptionToUpsert(
+          id = None,
+          name = "Angry Ujali",
+          description = Option("when Lloyd gives too much task")))
+      val expectedDescriptionResult =
+        Seq(
+          Description(
+            id = 1,
+            name = "Happy Ujali",
+            description = Option("when Alex makes a joke")),
+          Description(
+            id = 2,
+            name = "Sad Ujali",
+            description = Option("when cow gets eaten")),
+          Description(
+            id = 3,
+            name = "Angry Ujali",
+            description = Option("when Lloyd gives too much task")))
+      val expectedResult =
+        (descriptionType, expectedDescriptionResult)
+      val result = dao.insertType(newKind = "Ujali", createdAt = LocalDateTime.of(2019, 1, 1, 0, 0), createdBy = "Lloyd",
+        newValues = description)
+
+      result.isRight mustBe true
+      result.right.get mustBe expectedResult
+    }
+
+    "insert more descriptions for existing description_types" in {
+      val result = dao.insertDescription(existingKind = "Ujali", newValue = "Hungry Ujali", explanation = Some("Did not have breakfast and lunch"))
+      result.isRight mustBe true
+    }
+
+    "get all description_types and related descriptions" in {
+      val result = dao.fetchAllTypes
+      val expected = Map(
+        DescriptionType(
+          id = 1,
+          `type` = "Ujali",
+          createdAt = LocalDateTime.of(2019, 1, 1, 0, 0),
+          createdBy = "Lloyd",
+          updatedAt = None, updatedBy = None) → Set(
+            Description(id = 1, "Happy Ujali", Some("when Alex makes a joke")),
+            Description(id = 2, "Sad Ujali", Some("when cow gets eaten")),
+            Description(id = 3, "Angry Ujali", Some("when Lloyd gives too much task")),
+            Description(id = 4, "Hungry Ujali", Some("Did not have breakfast and lunch"))))
+
+      result.right.get.filter(_._1.`type` == "Ujali").map(entry ⇒ (entry._1, entry._2.toSet)) mustBe expected
+    }
+
+    "clear existing descriptions when inserting" in {
+      val createdAt = LocalDateTime.of(2019, 1, 1, 0, 0)
+      val description = Seq(
+        DescriptionToUpsert(
+          id = Some(1),
+          name = "Mad Ujali",
+          description = Option("when unit tests do not pass in bitbucket")),
+        DescriptionToUpsert(
+          id = Some(2),
+          name = "Depressed Ujali",
+          description = Option("when KPI dont give bonus")))
+      val expectedDescription = Seq(
+        Description(
+          id = 1,
+          name = "Mad Ujali",
+          description = Option("when unit tests do not pass in bitbucket")),
+        Description(
+          id = 2,
+          name = "Depressed Ujali",
+          description = Option("when KPI dont give bonus")))
+      val expectedResult = (DescriptionType(1, "Ujali", createdAt, "Lloyd", Some(LocalDateTime.of(2019, 1, 1, 0, 0)), Some("Lloyd")), expectedDescription)
+      val result1 = dao.bulkUpsert(
+        existingKind = "Ujali", updatedAt = LocalDateTime.of(2019, 1, 1, 0, 0),
+        updatedBy = "Lloyd",
+        lastUpdatedAt = Some(LocalDateTime.of(2019, 1, 1, 0, 0)),
+        newValues = description)
+
+      result1.isRight mustBe true
+      result1.right.get._1.copy(id = 0) mustBe expectedResult._1.copy(id = 0) //ignore id because it is autogenerated
+      result1.right.get._2.map(_.copy(id = 0)).toSet mustBe expectedResult._2.map(_.copy(id = 0)).toSet //ignore id because it is autogenerated
+
+      val result2 = dao.fetchAllTypes
+      val expected = Map(
+        DescriptionType(
+          id = 1,
+          `type` = "Ujali",
+          createdAt = LocalDateTime.of(2019, 1, 1, 0, 0),
+          createdBy = "Lloyd",
+          updatedAt = Some(LocalDateTime.of(2019, 1, 1, 0, 0)), updatedBy = Some("Lloyd")) → Set(
+            Description(id = 1, "Mad Ujali", Some("when unit tests do not pass in bitbucket")),
+            Description(id = 2, "Depressed Ujali", Some("when KPI dont give bonus"))))
+
+      result2.right.get.filter(_._1.`type` == "Ujali").map(entry ⇒ (entry._1, entry._2.toSet)) mustBe expected
+    }
+
+  }
+}

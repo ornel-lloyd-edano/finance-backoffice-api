@@ -1,0 +1,345 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# https://www.playframework.com/documentation/latest/ScalaRouting
+# ~~~~
+
+
+->          /                                           hidden.Routes
+
+# Healthcheck
+GET            /health                                                                             tech.pegb.backoffice.api.healthcheck.controllers.HealthCheckController.isHealthy
+
+# API
+GET            /api/customers                                                                      tech.pegb.backoffice.api.proxy.CustomersProxyController.getUserByCriteria(msisdn: Option[String], user_id: Option[tech.pegb.backoffice.util.UUIDLike], alias: Option[String], full_name: Option[String], status: Option[String], any_name: Option[String], partial_match: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+GET            /api/customers/:id                                                                  tech.pegb.backoffice.api.proxy.CustomersProxyController.getUser(id: java.util.UUID)
+GET            /api/customers/:id/accounts                                                         tech.pegb.backoffice.api.proxy.CustomersProxyController.getCustomerAccounts(id: java.util.UUID, primary_account: Option[Boolean], account_type: Option[String], account_number: Option[String], status: Option[String], currency: Option[String], partial_match: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+GET            /api/customers/:id/accounts/:account_id                                             tech.pegb.backoffice.api.proxy.CustomersProxyController.getCustomerAccountById(id: java.util.UUID, account_id: java.util.UUID)
+PUT            /api/customers/:id/accounts/:account_id/activate                                    tech.pegb.backoffice.api.proxy.CustomersProxyController.activateCustomerAccount(id: java.util.UUID, account_id: java.util.UUID)
+PUT            /api/customers/:id/accounts/:account_id/deactivate                                  tech.pegb.backoffice.api.proxy.CustomersProxyController.deactivateCustomerAccount(id: java.util.UUID, account_id: java.util.UUID)
+DELETE         /api/customers/:id/accounts/:account_id                                             tech.pegb.backoffice.api.proxy.CustomersProxyController.closeCustomerAccount(id: java.util.UUID, account_id: java.util.UUID)
+
+GET            /api/customers/:customer_id/accounts/:account_id/transactions                       tech.pegb.backoffice.api.proxy.CustomersProxyController.getTransactions(customer_id: java.util.UUID, account_id: java.util.UUID, date_from: Option[tech.pegb.backoffice.api.model.LocalDateTimeFrom], date_to: Option[tech.pegb.backoffice.api.model.LocalDateTimeTo], `type`: Option[String], channel: Option[String], status: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+GET            /api/customers/:customer_id/payment_options                                         tech.pegb.backoffice.api.proxy.CustomersProxyController.getPaymentOptionsTransactions(customer_id: java.util.UUID)
+
+GET            /api/business_users/:id/velocity_portal_users                                       tech.pegb.backoffice.api.proxy.BusinessUserProxyController.getVelocityPortalUsers(id: java.util.UUID, order_by: Option[String], limit: Option[Int], offset: Option[Int])
+GET            /api/business_users/:id/velocity_portal_users/:vp_user_id                           tech.pegb.backoffice.api.proxy.BusinessUserProxyController.getVelocityPortalUserById(id: java.util.UUID, vp_user_id: java.util.UUID)
+PUT            /api/business_users/:id/velocity_portal_users/:vp_user_id/reset_pin                 tech.pegb.backoffice.api.proxy.BusinessUserProxyController.resetVelocityPortalPin(id: java.util.UUID, vp_user_id: java.util.UUID)
+GET            /api/business_users/:id/contacts                                                    tech.pegb.backoffice.api.proxy.BusinessUserProxyController.getContacts(id: java.util.UUID, order_by: Option[String], limit: Option[Int], offset: Option[Int])
+POST           /api/business_users/:id/contacts                                                    tech.pegb.backoffice.api.proxy.BusinessUserProxyController.createContact(id: java.util.UUID)
+GET            /api/business_users/:id/contacts/:contact_id                                        tech.pegb.backoffice.api.proxy.BusinessUserProxyController.getContactsById(id: java.util.UUID, contact_id: java.util.UUID)
+PUT            /api/business_users/:id/contacts/:contact_id                                        tech.pegb.backoffice.api.proxy.BusinessUserProxyController.updateContact(id: java.util.UUID, contact_id: java.util.UUID)
+GET            /api/business_users/:id/addresses                                                   tech.pegb.backoffice.api.proxy.BusinessUserProxyController.getAddress(id: java.util.UUID, order_by: Option[String], limit: Option[Int], offset: Option[Int])
+GET            /api/business_users/:id/addresses/:address_id                                       tech.pegb.backoffice.api.proxy.BusinessUserProxyController.getAddressById(id: java.util.UUID, address_id: java.util.UUID)
+POST           /api/business_users/:id/addresses                                                   tech.pegb.backoffice.api.proxy.BusinessUserProxyController.createAddress(id: java.util.UUID)
+PUT            /api/business_users/:id/addresses/:address_id                                       tech.pegb.backoffice.api.proxy.BusinessUserProxyController.updateAddress(id: java.util.UUID, address_id: java.util.UUID)
+
+
+GET            /api/business_users/:id/external_accounts                                           tech.pegb.backoffice.api.proxy.BusinessUserProxyController.getCustomerExternalAccountsByCriteria(id: java.util.UUID, external_account_id: Option[tech.pegb.backoffice.util.UUIDLike], currency: Option[String], provider_name: Option[String], account_number: Option[String], account_holder: Option[String], partial_match: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+POST           /api/business_users/:id/external_accounts                                           tech.pegb.backoffice.api.proxy.BusinessUserProxyController.createCustomerExternalAccount(id: java.util.UUID)
+GET            /api/business_users/:id/external_accounts/:external_account_id                      tech.pegb.backoffice.api.proxy.BusinessUserProxyController.getCustomerExternalAccount(id: java.util.UUID, external_account_id: java.util.UUID)
+PUT            /api/business_users/:id/external_accounts/:external_account_id                      tech.pegb.backoffice.api.proxy.BusinessUserProxyController.updateCustomerExternalAccount(id: java.util.UUID, external_account_id: java.util.UUID)
+DELETE         /api/business_users/:id/external_accounts/:external_account_id                      tech.pegb.backoffice.api.proxy.BusinessUserProxyController.deleteCustomerExternalAccount(id: java.util.UUID, external_account_id: java.util.UUID)
+
+GET            /api/external_accounts                                                              tech.pegb.backoffice.api.proxy.ExternalAccountProxyController.getExternalAccountsByCriteria(customer_id: Option[tech.pegb.backoffice.util.UUIDLike], customer_name: Option[String], currency: Option[String], provider_name: Option[String], account_number: Option[String], account_holder: Option[String], partial_match: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+POST           /api/external_accounts                                                              tech.pegb.backoffice.api.proxy.ExternalAccountProxyController.createExternalAccount
+GET            /api/external_accounts/:id                                                          tech.pegb.backoffice.api.proxy.ExternalAccountProxyController.getExternalAccount(id: java.util.UUID)
+PUT            /api/external_accounts/:id                                                          tech.pegb.backoffice.api.proxy.ExternalAccountProxyController.updateExternalAccount(id: java.util.UUID)
+DELETE         /api/external_accounts/:id                                                          tech.pegb.backoffice.api.proxy.ExternalAccountProxyController.deleteExternalAccount(id: java.util.UUID)
+
+
+GET            /api/business_users/:id/txn_configs                                                 tech.pegb.backoffice.api.proxy.BusinessUserProxyController.getCustomerTxnConfigByCriteria(id: java.util.UUID, txn_config_id: Option[tech.pegb.backoffice.util.UUIDLike], currency: Option[String], transaction_type: Option[String], partial_match: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+POST           /api/business_users/:id/txn_configs                                                 tech.pegb.backoffice.api.proxy.BusinessUserProxyController.createCustomerTxnConfig(id: java.util.UUID)
+GET            /api/business_users/:id/txn_configs/:txn_config_id                                  tech.pegb.backoffice.api.proxy.BusinessUserProxyController.getCustomerTxnConfig(id: java.util.UUID, txn_config_id: java.util.UUID)
+PUT            /api/business_users/:id/txn_configs/:txn_config_id                                  tech.pegb.backoffice.api.proxy.BusinessUserProxyController.updateCustomerTxnConfig(id: java.util.UUID, txn_config_id: java.util.UUID)
+DELETE         /api/business_users/:id/txn_configs/:txn_config_id                                  tech.pegb.backoffice.api.proxy.BusinessUserProxyController.deleteCustomerTxnConfig(id: java.util.UUID, txn_config_id: java.util.UUID)
+
+GET            /api/txn_configs                                                                    tech.pegb.backoffice.api.proxy.TxnConfigProxyController.getTxnConfigByCriteria(customer_id: Option[tech.pegb.backoffice.util.UUIDLike], customer_name: Option[String], currency: Option[String], transaction_type: Option[String], partial_match: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+POST           /api/txn_configs                                                                    tech.pegb.backoffice.api.proxy.TxnConfigProxyController.createTxnConfig
+GET            /api/txn_configs/:id                                                                tech.pegb.backoffice.api.proxy.TxnConfigProxyController.getTxnConfig(id: java.util.UUID)
+PUT            /api/txn_configs/:id                                                                tech.pegb.backoffice.api.proxy.TxnConfigProxyController.updateTxnConfig(id: java.util.UUID)
+DELETE         /api/txn_configs/:id                                                                tech.pegb.backoffice.api.proxy.TxnConfigProxyController.deleteTxnConfig(id: java.util.UUID)
+
+
+
+GET            /api/individual_users                                                               tech.pegb.backoffice.api.proxy.IndividualUserProxyController.getIndividualUsersByCriteria(msisdn: Option[String], user_id: Option[tech.pegb.backoffice.util.UUIDLike], alias: Option[String], full_name: Option[String], status: Option[String], partial_match: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+GET            /api/individual_users/:id                                                           tech.pegb.backoffice.api.proxy.IndividualUserProxyController.getIndividualUser(id: java.util.UUID)
+PUT            /api/individual_users/:id/activate                                                  tech.pegb.backoffice.api.proxy.IndividualUserProxyController.activateIndividualUser(id: java.util.UUID)
+DELETE         /api/individual_users/:id                                                           tech.pegb.backoffice.api.proxy.IndividualUserProxyController.deactivateIndividualUser(id: java.util.UUID)
+
+GET            /api/individual_users/:customerId/accounts                                          tech.pegb.backoffice.api.proxy.IndividualUserProxyController.getIndividualUserAccounts(customerId: java.util.UUID, primary_account: Option[Boolean], account_type: Option[String], account_number: Option[String], status: Option[String], currency: Option[String])
+GET            /api/individual_users/:customerId/accounts/:accId                                   tech.pegb.backoffice.api.proxy.IndividualUserProxyController.getIndividualUserAccount(customerId: java.util.UUID, accId: java.util.UUID)
+
+POST           /api/individual_users/:id/accounts                                                  tech.pegb.backoffice.api.proxy.IndividualUserProxyController.openIndividualUserAccount(id: java.util.UUID)
+
+PUT            /api/individual_users/:customerId/accounts/:accId/activate                          tech.pegb.backoffice.api.proxy.IndividualUserProxyController.activateIndividualUserAccount(customerId: java.util.UUID, accId: java.util.UUID)
+PUT            /api/individual_users/:customerId/accounts/:accId/deactivate                        tech.pegb.backoffice.api.proxy.IndividualUserProxyController.deactivateIndividualUserAccount(customerId: java.util.UUID, accId: java.util.UUID)
+DELETE         /api/individual_users/:customerId/accounts/:accId                                   tech.pegb.backoffice.api.proxy.IndividualUserProxyController.closeIndividualUserAccount(customerId: java.util.UUID, accId: java.util.UUID)
+PUT            /api/individual_users/:id                                                           tech.pegb.backoffice.api.proxy.IndividualUserProxyController.updateIndividualUser(id: java.util.UUID)
+
+GET            /api/individual_users/:customerId/documents                                         tech.pegb.backoffice.api.proxy.IndividualUserProxyController.getIndividualUsersDocuments(customerId: java.util.UUID)
+GET            /api/individual_users/:customerId/documents/:docId                                  tech.pegb.backoffice.api.proxy.IndividualUserProxyController.getIndividualUsersDocumentByDocId(customerId: java.util.UUID, docId: java.util.UUID)
+PUT            /api/individual_users/:customerId/documents/:docId/reject                           tech.pegb.backoffice.api.proxy.IndividualUserProxyController.rejectDocument(customerId: java.util.UUID, docId: java.util.UUID)
+PUT            /api/individual_users/:customerId/documents/:docId/approve                          tech.pegb.backoffice.api.proxy.IndividualUserProxyController.approveDocument(customerId: java.util.UUID, docId: java.util.UUID)
+
+GET            /api/individual_users/:id/wallet_applications                                       tech.pegb.backoffice.api.proxy.IndividualUserProxyController.getIndividualUserWalletApplications(id: java.util.UUID)
+GET            /api/individual_users/:customerId/wallet_applications/:applicationId                tech.pegb.backoffice.api.proxy.IndividualUserProxyController.getIndividualUserWalletApplicationByApplicationId(customerId:java.util.UUID, applicationId:java.util.UUID)
+PUT            /api/individual_users/:customerId/wallet_applications/:applicationId/reject         tech.pegb.backoffice.api.proxy.IndividualUserProxyController.rejectWalletApplicationByUserId(customerId: java.util.UUID, applicationId:java.util.UUID)
+PUT            /api/individual_users/:customerId/wallet_applications/:applicationId/approve        tech.pegb.backoffice.api.proxy.IndividualUserProxyController.approveWalletApplicationByUserId(customerId: java.util.UUID, applicationId:java.util.UUID)
+
+GET            /api/customers/:customer_id/saving_options                                          tech.pegb.backoffice.api.proxy.SavingOptionsProxyController.getSavingOptionsByCustomerId(customer_id: java.util.UUID, status:Option[String])
+DELETE         /api/customers/:customer_id/saving_options/:id                                      tech.pegb.backoffice.api.proxy.SavingOptionsProxyController.deactivateSavingOption(customer_id: java.util.UUID, id: java.util.UUID)
+
+GET            /api/accounts                                                                       tech.pegb.backoffice.api.proxy.AccountProxyController.getAccountsByCriteria(customer_id: Option[tech.pegb.backoffice.util.UUIDLike], customer_full_name: Option[String], any_customer_name: Option[String], msisdn: Option[String], is_main_account: Option[Boolean], currency: Option[String], status: Option[String], account_type: Option[String], account_number: Option[String],  partial_match: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+GET            /api/accounts/:id                                                                   tech.pegb.backoffice.api.proxy.AccountProxyController.getAccountById(id: java.util.UUID)
+GET            /api/accounts/account_number/:accnum                                                tech.pegb.backoffice.api.proxy.AccountProxyController.getAccountByAccountNumber(accnum: String)
+GET            /api/accounts/account_name/:accname                                                 tech.pegb.backoffice.api.proxy.AccountProxyController.getAccountByAccountName(accname: String)
+
+GET            /api/floats                                                                         tech.pegb.backoffice.api.proxy.AccountProxyController.getFloatAccountAggregations(date_from: Option[tech.pegb.backoffice.api.model.LocalDateTimeFrom], date_to: Option[tech.pegb.backoffice.api.model.LocalDateTimeTo], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+
+POST           /api/accounts                                                                       tech.pegb.backoffice.api.proxy.AccountProxyController.createAccount()
+PUT            /api/accounts/:id/activate                                                          tech.pegb.backoffice.api.proxy.AccountProxyController.activateCustomerAccount(id: java.util.UUID)
+PUT            /api/accounts/:id/close                                                             tech.pegb.backoffice.api.proxy.AccountProxyController.closeCustomerAccount(id: java.util.UUID)
+PUT            /api/accounts/:id/deactivate                                                        tech.pegb.backoffice.api.proxy.AccountProxyController.deactivateCustomerAccount(id: java.util.UUID)
+
+GET            /api/documents/:id                                                                  tech.pegb.backoffice.api.proxy.DocumentMgmtProxyController.getDocument(id: java.util.UUID)
+GET            /api/documents/:id/file                                                             tech.pegb.backoffice.api.proxy.DocumentMgmtProxyController.getDocumentFile(id: java.util.UUID)
+GET            /api/documents                                                                      tech.pegb.backoffice.api.proxy.DocumentMgmtProxyController.getDocumentsByFilters(status: Option[String], document_type: Option[String], customer_id:Option[tech.pegb.backoffice.util.UUIDLike], customer_full_name: Option[String],customer_msisdn: Option[String], start_date: Option[java.time.LocalDate], end_date: Option[java.time.LocalDate], is_checked_at: Option[Boolean], partial_match: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+POST           /api/documents                                                                      tech.pegb.backoffice.api.proxy.DocumentMgmtProxyController.createDocument()
+#TODO test maker checker for document file upload, may be not required becuz post /api/documents will pass through maker checker
+POST           /api/documents/:id/file                                                             tech.pegb.backoffice.api.proxy.DocumentMgmtProxyController.uploadDocumentFile(id: java.util.UUID)
+PUT            /api/documents/:id/approve                                                          tech.pegb.backoffice.api.proxy.DocumentMgmtProxyController.approveDocument(id: java.util.UUID)
+PUT            /api/documents/:id/reject                                                           tech.pegb.backoffice.api.proxy.DocumentMgmtProxyController.rejectDocument(id: java.util.UUID)
+
+GET            /api/wallet_applications/:id                                                        tech.pegb.backoffice.api.proxy.WalletApplicationProxyController.getWalletApplication(id: java.util.UUID)
+GET            /api/wallet_applications                                                            tech.pegb.backoffice.api.proxy.WalletApplicationProxyController.getWalletApplicationsByCriteria(status: Option[String], name: Option[String], full_name: Option[String], msisdn: Option[String], national_id: Option[String], start_date:Option[java.time.LocalDate], end_date:Option[java.time.LocalDate], order_by:Option[String], limit: Option[Int], offset: Option[Int])
+GET            /api/wallet_applications/:id/documents                                              tech.pegb.backoffice.api.proxy.WalletApplicationProxyController.getDocumentsByWalletApplication(id: java.util.UUID)
+PUT            /api/wallet_applications/:id/approve                                                tech.pegb.backoffice.api.proxy.WalletApplicationProxyController.approveWalletApplication(id: java.util.UUID)
+PUT            /api/wallet_applications/:id/reject                                                 tech.pegb.backoffice.api.proxy.WalletApplicationProxyController.rejectWalletApplication(id: java.util.UUID)
+
+
+GET            /api/currency_exchanges                                                             tech.pegb.backoffice.api.proxy.CurrencyExchangeProxyController.getCurrencyExchangeByCriteria(id: Option[tech.pegb.backoffice.util.UUIDLike], currency_code: Option[String], base_currency: Option[String], provider: Option[String], status: Option[String], partial_match: Option[String], order_by:Option[String], limit: Option[Int], offset: Option[Int])
+GET            /api/currency_exchanges/:id                                                         tech.pegb.backoffice.api.proxy.CurrencyExchangeProxyController.getCurrencyExchange(id: java.util.UUID)
+PUT            /api/currency_exchanges/:id/activate                                                tech.pegb.backoffice.api.proxy.CurrencyExchangeProxyController.activateFX(id: java.util.UUID)
+PUT            /api/currency_exchanges/:id/deactivate                                              tech.pegb.backoffice.api.proxy.CurrencyExchangeProxyController.deactivateFX(id: java.util.UUID)
+GET            /api/currency_exchanges/:id/spreads                                                 tech.pegb.backoffice.api.proxy.CurrencyExchangeProxyController.getCurrencyExchangeSpreads(id: java.util.UUID, transaction_type: Option[String], channel: Option[String], institution: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+POST           /api/currency_exchanges/:id/spreads                                                 tech.pegb.backoffice.api.proxy.CurrencyExchangeProxyController.createSpreads(id: java.util.UUID)
+
+GET            /api/currency_exchanges/:fxId/spreads/:id                                           tech.pegb.backoffice.api.proxy.SpreadProxyController.getCurrencyExchangeSpread(fxId: java.util.UUID, id:java.util.UUID)
+PUT            /api/currency_exchanges/:fxId/spreads/:id                                           tech.pegb.backoffice.api.proxy.CurrencyExchangeProxyController.updateCurrencyExchangeSpread(id: java.util.UUID, fxId: java.util.UUID)
+DELETE         /api/currency_exchanges/:fxId/spreads/:id                                           tech.pegb.backoffice.api.proxy.CurrencyExchangeProxyController.deleteCurrencyExchangeSpread(id: java.util.UUID, fxId: java.util.UUID)
+PUT            /api/currency_exchanges/activate                                                    tech.pegb.backoffice.api.proxy.CurrencyExchangeProxyController.batchActivateFX
+PUT            /api/currency_exchanges/deactivate                                                  tech.pegb.backoffice.api.proxy.CurrencyExchangeProxyController.batchDeactivateFX
+
+PUT            /api/currency_rates/:id                                                             tech.pegb.backoffice.api.proxy.CurrencyRateProxyController.update(id: Int)
+
+GET            /api/spreads/:id                                                                    tech.pegb.backoffice.api.proxy.SpreadProxyController.getSpread(id: java.util.UUID)
+GET            /api/spreads                                                                        tech.pegb.backoffice.api.proxy.SpreadProxyController.getSpreadsByCriteria(id: Option[tech.pegb.backoffice.util.UUIDLike], currency_exchange_id: Option[tech.pegb.backoffice.util.UUIDLike], currency: Option[String], transaction_type: Option[String], channel: Option[String], institution: Option[String], partial_match: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+POST           /api/spreads                                                                        tech.pegb.backoffice.api.proxy.SpreadProxyController.createSpreads()
+
+GET            /api/transactions                                                                   tech.pegb.backoffice.api.proxy.TransactionProxyController.getTransactions(any_customer_name: Option[String], customer_id: Option[tech.pegb.backoffice.util.UUIDLike], account_id: Option[tech.pegb.backoffice.util.UUIDLike], date_from: Option[tech.pegb.backoffice.api.model.LocalDateTimeFrom], date_to: Option[tech.pegb.backoffice.api.model.LocalDateTimeTo], type: Option[String], channel: Option[String], status: Option[String], partial_match: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+GET            /api/transactions/:id                                                               tech.pegb.backoffice.api.proxy.TransactionProxyController.getTransactionById(id: String)
+
+PUT            /api/transactions/:id/cancel                                                        tech.pegb.backoffice.api.proxy.TransactionProxyController.cancelTransaction(id: String)
+PUT            /api/transactions/:id/revert                                                        tech.pegb.backoffice.api.proxy.TransactionProxyController.revertTransaction(id: String)
+
+GET            /api/limit_profiles                                                                 tech.pegb.backoffice.api.proxy.LimitProfileProxyController.getLimitProfileByCriteria(id: Option[tech.pegb.backoffice.util.UUIDLike], limit_type: Option[String], user_type: Option[String], tier: Option[String], subscription: Option[String], transaction_type: Option[String], channel: Option[String], other_party: Option[String], instrument: Option[String], interval: Option[String], currency_code: Option[String], partial_match: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+GET            /api/limit_profiles/:id                                                             tech.pegb.backoffice.api.proxy.LimitProfileProxyController.getLimitProfile(id: java.util.UUID)
+POST           /api/limit_profiles                                                                 tech.pegb.backoffice.api.proxy.LimitProfileProxyController.createLimitProfile()
+PUT            /api/limit_profiles/:id                                                             tech.pegb.backoffice.api.proxy.LimitProfileProxyController.updateLimitProfile(id: java.util.UUID)
+DELETE         /api/limit_profiles/:id                                                             tech.pegb.backoffice.api.proxy.LimitProfileProxyController.deleteLimitProfile(id: java.util.UUID)
+
+GET            /api/fee_profiles                                                                   tech.pegb.backoffice.api.proxy.FeeProfileProxyController.getFeeProfileByCriteria(id: Option[tech.pegb.backoffice.util.UUIDLike], fee_type: Option[String], user_type: Option[String], tier: Option[String], subscription_type: Option[String], transaction_type: Option[String], channel: Option[String], other_party: Option[String], instrument: Option[String], calculation_method: Option[String], currency_code: Option[String], fee_method: Option[String], tax_included: Option[String], partial_match: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+GET            /api/fee_profiles/:id                                                               tech.pegb.backoffice.api.proxy.FeeProfileProxyController.getFeeProfile(id: java.util.UUID)
+POST           /api/fee_profiles                                                                   tech.pegb.backoffice.api.proxy.FeeProfileProxyController.createFeeProfile()
+PUT            /api/fee_profiles/:id                                                               tech.pegb.backoffice.api.proxy.FeeProfileProxyController.updateFeeProfile(id: java.util.UUID)
+
+DELETE         /api/fee_profiles/:id                                                               tech.pegb.backoffice.api.proxy.FeeProfileProxyController.deleteFeeProfile(id: java.util.UUID)
+
+GET            /api/commission_profiles                                                            tech.pegb.backoffice.api.proxy.CommissionProfileProxyController.getCommissionProfileByCriteria(id: Option[tech.pegb.backoffice.util.UUIDLike], business_type: Option[String], tier: Option[String], subscription_type: Option[String], transaction_type: Option[String], channel: Option[String], instrument: Option[String], currency: Option[String], calculation_method: Option[String], partial_match: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+GET            /api/commission_profiles/:id                                                        tech.pegb.backoffice.api.proxy.CommissionProfileProxyController.getCommissionProfile(id: java.util.UUID)
+POST           /api/commission_profiles                                                            tech.pegb.backoffice.api.proxy.CommissionProfileProxyController.createCommissionProfile()
+PUT            /api/commission_profiles/:id                                                        tech.pegb.backoffice.api.proxy.CommissionProfileProxyController.updateCommissionProfile(id: java.util.UUID)
+DELETE         /api/commission_profiles/:id                                                        tech.pegb.backoffice.api.proxy.CommissionProfileProxyController.deleteCommissionProfile(id: java.util.UUID)
+
+GET            /api/strings                                                                        tech.pegb.backoffice.api.proxy.I18nStringProxyController.getI18nString(id: Option[Int], key: Option[String], locale: Option[String], platform: Option[String], `type`: Option[String], explanation: Option[String], partial_match: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int] )
+GET            /api/strings/:id                                                                    tech.pegb.backoffice.api.proxy.I18nStringProxyController.getI8nStringById(id: Int)
+POST           /api/strings                                                                        tech.pegb.backoffice.api.proxy.I18nStringProxyController.createI18nString()
+POST           /api/strings/bulk                                                                   tech.pegb.backoffice.api.proxy.I18nStringProxyController.bulkI18nStringCreate()
+PUT            /api/strings/:id                                                                    tech.pegb.backoffice.api.proxy.I18nStringProxyController.updateI18nString(id: Int)
+DELETE         /api/strings/:id                                                                    tech.pegb.backoffice.api.proxy.I18nStringProxyController.deleteI18nString(id: Int)
+
+GET            /api/manual_transactions                                                            tech.pegb.backoffice.api.proxy.ManualTransactionProxyController.getManualTransactions(id: Option[tech.pegb.backoffice.util.UUIDLike], date_from: Option[tech.pegb.backoffice.api.model.LocalDateTimeFrom], date_to: Option[tech.pegb.backoffice.api.model.LocalDateTimeTo], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+POST           /api/manual_transactions                                                            tech.pegb.backoffice.api.proxy.ManualTransactionProxyController.createManualTransaction
+GET            /api/manual_transactions/currency_exchange_history                                  tech.pegb.backoffice.api.proxy.ManualTransactionProxyController.getSettlementFxHistory(provider: Option[String], from_currency: Option[String], to_currency: Option[String], date_from: Option[tech.pegb.backoffice.api.model.LocalDateTimeFrom], date_to: Option[tech.pegb.backoffice.api.model.LocalDateTimeTo], order_by: Option[String], limit: Option[Int], offset: Option[Int] )
+GET            /api/manual_transactions/frequently_used_accounts                                   tech.pegb.backoffice.api.proxy.ManualTransactionProxyController.getSettlementRecentAccount(limit: Option[Int], offset: Option[Int])
+
+GET            /api/parameters/:id                                                                 tech.pegb.backoffice.api.proxy.ParameterProxyController.getParameterById(id: java.util.UUID)
+GET            /api/parameters                                                                     tech.pegb.backoffice.api.proxy.ParameterProxyController.getParametersByCriteria(key: Option[String], metadata_id: Option[String], platforms: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+POST           /api/parameters                                                                     tech.pegb.backoffice.api.proxy.ParameterProxyController.createParameter
+PUT            /api/parameters/:id                                                                 tech.pegb.backoffice.api.proxy.ParameterProxyController.updateParameter(id: java.util.UUID)
+
+GET            /api/notifications                                                                  tech.pegb.backoffice.api.proxy.NotificationMgmtProxyController.getNotificationsByCriteria(id: Option[tech.pegb.backoffice.util.UUIDLike], template_id: Option[tech.pegb.backoffice.util.UUIDLike], user_id: Option[tech.pegb.backoffice.util.UUIDLike], operationId: Option[String], channels: Option[String], title: Option[String], content: Option[String], address: Option[String], status: Option[String], created_at_from: Option[tech.pegb.backoffice.api.model.LocalDateTimeFrom], created_at_to: Option[tech.pegb.backoffice.api.model.LocalDateTimeTo], partial_match: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+
+GET            /api/notifications/:id                                                              tech.pegb.backoffice.api.proxy.NotificationMgmtProxyController.getNotificationById(id: java.util.UUID)
+
+GET            /api/notification_templates                                                         tech.pegb.backoffice.api.proxy.NotificationMgmtProxyController.getNotificationTemplatesByCriteria(id: Option[tech.pegb.backoffice.util.UUIDLike], name: Option[String], channel: Option[String], created_at_from: Option[tech.pegb.backoffice.api.model.LocalDateTimeFrom], created_at_to: Option[tech.pegb.backoffice.api.model.LocalDateTimeTo], is_active: Option[Boolean], partial_match: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+
+GET            /api/notification_templates/:id                                                     tech.pegb.backoffice.api.proxy.NotificationMgmtProxyController.getNotificationTemplateById(id: java.util.UUID)
+
+POST           /api/notification_templates                                                         tech.pegb.backoffice.api.proxy.NotificationMgmtProxyController.createNotificationTemplate
+
+PUT            /api/notification_templates/:id                                                     tech.pegb.backoffice.api.proxy.NotificationMgmtProxyController.updateNotificationTemplate(id: java.util.UUID)
+
+PUT            /api/notification_templates/:id/activate                                            tech.pegb.backoffice.api.proxy.NotificationMgmtProxyController.activateNotificationTemplate(id: java.util.UUID)
+
+PUT            /api/notification_templates/:id/deactivate                                          tech.pegb.backoffice.api.proxy.NotificationMgmtProxyController.deactivateNotificationTemplate(id: java.util.UUID)
+
+GET            /api/currency_rates                                                                 tech.pegb.backoffice.api.proxy.CurrencyRateProxyController.getCurrencyRate(order_by: Option[String], show_empty: Option[Boolean])
+GET            /api/currency_rates/:id                                                             tech.pegb.backoffice.api.proxy.CurrencyRateProxyController.getCurrencyRateById(id: Long)
+
+GET            /api/tasks                                                                          tech.pegb.backoffice.api.proxy.MakerCheckerProxyController.getTasksByCriteria(module: Option[String], status: Option[String], date_from: Option[tech.pegb.backoffice.api.model.LocalDateTimeFrom], date_to: Option[tech.pegb.backoffice.api.model.LocalDateTimeTo], is_read_only: Option[Boolean], partial_match: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+GET            /api/tasks/:id                                                                      tech.pegb.backoffice.api.proxy.MakerCheckerProxyController.getTask(id: java.util.UUID)
+PUT            /api/tasks/:id/approve                                                              tech.pegb.backoffice.api.proxy.MakerCheckerProxyController.approveTask(id: java.util.UUID)
+PUT            /api/tasks/:id/reject                                                               tech.pegb.backoffice.api.proxy.MakerCheckerProxyController.rejectTask(id: java.util.UUID)
+
+POST           /api/report_definitions                                                             tech.pegb.backoffice.api.proxy.ReportDefinitionProxyController.createReportDefinition
+GET            /api/report_definitions                                                             tech.pegb.backoffice.api.proxy.ReportDefinitionProxyController.getReportDefinition(name: Option[String], partial_match: Option[String], order_by: Option[String] , limit: Option[Int] , offset:  Option[Int])
+GET            /api/report_definitions/:id                                                         tech.pegb.backoffice.api.proxy.ReportDefinitionProxyController.getReportDefinitionById(id: java.util.UUID)
+PUT            /api/report_definitions/:id                                                         tech.pegb.backoffice.api.proxy.ReportDefinitionProxyController.updateReportDefinition(id: java.util.UUID)
+DELETE         /api/report_definitions/:id                                                         tech.pegb.backoffice.api.proxy.ReportDefinitionProxyController.deleteReportDefinitionById(id: java.util.UUID)
+
+# TODO : Try to bind the hard-coded uuid to an environment variable
+GET            /api/reports/cffe9e03-3511-11ea-8cef-fa163ed3b165/aggregations           tech.pegb.backoffice.api.aggregations.controllers.CashFlowController.getCashFlowAggregation(date_from:Option[tech.pegb.backoffice.api.model.LocalDateTimeFrom], date_to:Option[tech.pegb.backoffice.api.model.LocalDateTimeTo], currency: String, institution: Option[String])
+#GET            /api/reports/cffe9e03-3511-11ea-8cef-fa163ed3b165                                   tech.pegb.backoffice.api.proxy.ReportDataProxyController.getReportData(id: String)
+GET            /api/reports/:id                                                                    tech.pegb.backoffice.api.proxy.ReportDataProxyController.getReportData(id: java.util.UUID)
+
+#NOTE:
+#plan in the future is to provide a generic GET routes endpoint to serve not only available reports resources
+#for the authorized backoffice user but all available resources that this user is permitted to access
+GET            /api/routes                                                                         tech.pegb.backoffice.api.proxy.ReportResourcesProxyController.getAvailableReportsForUser
+
+
+GET            /api/internal_recons                                                                tech.pegb.backoffice.api.proxy.ReconciliationProxyController.getInternalRecon(id: Option[String], user_id: Option[String], any_customer_name: Option[String], account_number: Option[String], acc_type: Option[String], status: Option[String], start_recon_date: Option[tech.pegb.backoffice.api.model.LocalDateTimeFrom], end_recon_date: Option[tech.pegb.backoffice.api.model.LocalDateTimeTo], order_by: Option[String], partial_match: Option[String], limit: Option[Int], offset: Option[Int])
+GET            /api/internal_recons/incidents                                                      tech.pegb.backoffice.api.proxy.ReconciliationProxyController.getInternalReconIncidents(recon_id: Option[String], account_number: Option[String], start_recon_date: Option[tech.pegb.backoffice.api.model.LocalDateTimeFrom], end_recon_date: Option[tech.pegb.backoffice.api.model.LocalDateTimeTo], order_by: Option[String], partial_match: Option[String], limit: Option[Int], offset: Option[Int])
+GET            /api/internal_recons/:id                                                            tech.pegb.backoffice.api.proxy.ReconciliationProxyController.getReconciliationSummaryById(id: String)
+PUT            /api/internal_recons/:id                                                            tech.pegb.backoffice.api.proxy.ReconciliationProxyController.updateReconStatus(id: String)
+
+POST           /api/business_units                                                                 tech.pegb.backoffice.api.proxy.BusinessUnitProxyController.create(reactivate: Option[Boolean])
+GET            /api/business_units                                                                 tech.pegb.backoffice.api.proxy.BusinessUnitProxyController.findAll(order_by: Option[String], limit:Option[Int], offset:Option[Int])
+GET            /api/business_units/:id                                                             tech.pegb.backoffice.api.proxy.BusinessUnitProxyController.findById(id: java.util.UUID)
+DELETE         /api/business_units/:id                                                             tech.pegb.backoffice.api.proxy.BusinessUnitProxyController.delete(id: java.util.UUID)
+PUT            /api/business_units/:id                                                             tech.pegb.backoffice.api.proxy.BusinessUnitProxyController.update(id: java.util.UUID)
+
+GET            /api/roles                                                                          tech.pegb.backoffice.api.proxy.RolesProxyController.getRoles(order_by: Option[String], limit: Option[Int], offset: Option[Int])
+GET            /api/roles/:id                                                                      tech.pegb.backoffice.api.proxy.RolesProxyController.getRoleById(id: java.util.UUID)
+POST           /api/roles                                                                          tech.pegb.backoffice.api.proxy.RolesProxyController.createRole(reactivate: Option[Boolean])
+PUT            /api/roles/:id                                                                      tech.pegb.backoffice.api.proxy.RolesProxyController.updateRole(id: java.util.UUID)
+DELETE         /api/roles/:id                                                                      tech.pegb.backoffice.api.proxy.RolesProxyController.deleteRole(id: java.util.UUID)
+
+GET            /api/back_office_users                                                              tech.pegb.backoffice.api.proxy.BackOfficeUserProxyController.getBackOfficeUsers(user_name: Option[String], first_name: Option[String], last_name: Option[String], email: Option[String], phone_number: Option[String], role_id: Option[String], business_unit_id: Option[String], scope_id: Option[String], partial_match: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+GET            /api/back_office_users/:id                                                          tech.pegb.backoffice.api.proxy.BackOfficeUserProxyController.getBackOfficeUserById(id: java.util.UUID)
+POST           /api/back_office_users                                                              tech.pegb.backoffice.api.proxy.BackOfficeUserProxyController.createBackOfficeUser(reactivate: Option[Boolean])
+PUT            /api/back_office_users/:id                                                          tech.pegb.backoffice.api.proxy.BackOfficeUserProxyController.updateBackOfficeUser(id: java.util.UUID)
+DELETE         /api/back_office_users/:id                                                          tech.pegb.backoffice.api.proxy.BackOfficeUserProxyController.deleteBackOfficeUser(id: java.util.UUID)
+
+GET            /api/scopes                                                                         tech.pegb.backoffice.api.proxy.ScopeProxyController.getAllScopes(order_by: Option[String], limit: Option[Int], offset: Option[Int])
+GET            /api/scopes/:id                                                                     tech.pegb.backoffice.api.proxy.ScopeProxyController.getScopeById(id: java.util.UUID)
+POST           /api/scopes                                                                         tech.pegb.backoffice.api.proxy.ScopeProxyController.createScope(reactivate: Option[Boolean])
+PUT            /api/scopes/:id                                                                     tech.pegb.backoffice.api.proxy.ScopeProxyController.updateScopeById(id: java.util.UUID)
+DELETE         /api/scopes/:id                                                                     tech.pegb.backoffice.api.proxy.ScopeProxyController.deleteScopeById(id: java.util.UUID)
+
+GET            /api/permissions                                                                    tech.pegb.backoffice.api.proxy.PermissionProxyController.getAllPermissions(business_unit_id: Option[java.util.UUID], role_id: Option[java.util.UUID], user_id: Option[java.util.UUID], partial_match: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+GET            /api/permissions/:id                                                                tech.pegb.backoffice.api.proxy.PermissionProxyController.getPermissionById(id: java.util.UUID)
+POST           /api/permissions                                                                    tech.pegb.backoffice.api.proxy.PermissionProxyController.createPermission(reactivate: Option[Boolean])
+PUT            /api/permissions/:id                                                                tech.pegb.backoffice.api.proxy.PermissionProxyController.updatePermissionById(id: java.util.UUID)
+DELETE         /api/permissions/:id                                                                tech.pegb.backoffice.api.proxy.PermissionProxyController.deletePermissionById(id: java.util.UUID)
+
+GET            /api/business_user_applications                                                     tech.pegb.backoffice.api.proxy.BusinessUserApplicationProxyController.getBusinessUserApplication(business_name: Option[String], brand_name: Option[String], business_category: Option[String], stage: Option[String], status: Option[String], phone_number: Option[String], email: Option[String], date_from: Option[tech.pegb.backoffice.api.model.LocalDateTimeFrom], date_to: Option[tech.pegb.backoffice.api.model.LocalDateTimeTo], partial_match: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+GET            /api/business_user_applications/:id                                                 tech.pegb.backoffice.api.proxy.BusinessUserApplicationProxyController.getBusinessUserApplicationById(id: java.util.UUID)
+POST           /api/business_user_applications/:id                                                 tech.pegb.backoffice.api.proxy.BusinessUserApplicationProxyController.createBusinessUserApplication(id: java.util.UUID)
+GET            /api/business_user_applications/:id/stage/identity_info                             tech.pegb.backoffice.api.proxy.BusinessUserApplicationProxyController.getBusinessUserApplicationById(id: java.util.UUID)
+GET            /api/business_user_applications/:id/stage/config                                    tech.pegb.backoffice.api.proxy.BusinessUserApplicationProxyController.getBusinessUserApplicationConfig(id: java.util.UUID)
+
+POST           /api/business_user_applications/:id/stage/config                                    tech.pegb.backoffice.api.proxy.BusinessUserApplicationProxyController.createBusinessUserApplicationConfig(id: java.util.UUID)
+POST           /api/business_user_applications/:id/stage/contact_info                              tech.pegb.backoffice.api.proxy.BusinessUserApplicationProxyController.createBusinessUserApplicationContactInfo(id: java.util.UUID)
+POST           /api/business_user_applications/:id/stage/documents                                 tech.pegb.backoffice.api.proxy.BusinessUserApplicationProxyController.createBusinessUserApplicationDocument(id: java.util.UUID)
+
+GET            /api/business_user_applications/:id/stage/contact_info                              tech.pegb.backoffice.api.proxy.BusinessUserApplicationProxyController.getBusinessUserApplicationContactInfo(id: java.util.UUID)
+PUT            /api/business_user_applications/:id/cancel                                          tech.pegb.backoffice.api.proxy.BusinessUserApplicationProxyController.cancelBusinessUserApplication(id: java.util.UUID)
+PUT            /api/business_user_applications/:id/reject                                          tech.pegb.backoffice.api.proxy.BusinessUserApplicationProxyController.rejectBusinessUserApplication(id: java.util.UUID)
+PUT            /api/business_user_applications/:id/send_for_correction                             tech.pegb.backoffice.api.proxy.BusinessUserApplicationProxyController.sendForCorrectionBusinessUserApplication(id: java.util.UUID)
+PUT            /api/business_user_applications/:id/submit                                          tech.pegb.backoffice.api.proxy.BusinessUserApplicationProxyController.submitBusinessUserApplication(id: java.util.UUID)
+PUT            /api/business_user_applications/:id/approve                                         tech.pegb.backoffice.api.proxy.BusinessUserApplicationProxyController.approveBusinessUserApplication(id: java.util.UUID)
+
+GET            /api/business_user_applications/:id/stage/documents                                 tech.pegb.backoffice.api.proxy.BusinessUserApplicationProxyController.getBusinessUserApplicationDocuments(id: java.util.UUID)
+
+
+#GET           /api/business_user_applications/:id/identity_info                                   tech.pegb.backoffice.api.proxy.BusinessUserApplicationProxyController.getBusinessUserApplicationById(id: java.util.UUID)
+
+###############################################################################
+#
+#              Annonymous routes
+#
+###############################################################################
+
+GET            /api/types                                                                          tech.pegb.backoffice.api.types.controllers.TypesController.getAllTypes
+GET            /api/types/:kind                                                                    tech.pegb.backoffice.api.types.controllers.TypesController.getTypes(kind: String)
+GET            /api/account_types                                                                  tech.pegb.backoffice.api.types.controllers.TypesController.getAccountTypes
+GET            /api/currencies                                                                     tech.pegb.backoffice.api.currency.controllers.CurrencyController.fetchCurrenciesWithId
+
+GET            /api/i18n                                                                           tech.pegb.backoffice.api.i18n.I18nStringController.getI18nDictionary(platform: Option[String])
+
+GET            /api/metadata                                                                       tech.pegb.backoffice.api.parameter.ParameterController.getMetadata
+GET            /api/metadata/:id                                                                   tech.pegb.backoffice.api.parameter.ParameterController.getMetadataById(id: String)
+
+POST           /api/login                                                                          tech.pegb.backoffice.api.auth.controllers.AuthenticationController.login
+PUT            /api/update_password                                                                tech.pegb.backoffice.api.auth.controllers.AuthenticationController.updatePassword
+POST           /api/reset_password                                                                 tech.pegb.backoffice.api.auth.controllers.AuthenticationController.resetPassword
+
+POST           /api/admin/reset_password                                                           tech.pegb.backoffice.api.proxy.AuthenticationProxyController.resetPassword
+
+
+GET            /api/reset_password                                                                 tech.pegb.backoffice.api.auth.controllers.AuthenticationController.validateResetPasswordByToken(token: String)
+PUT            /api/reset_password                                                                 tech.pegb.backoffice.api.auth.controllers.AuthenticationController.updateResetPassword
+GET            /api/status                                                                         tech.pegb.backoffice.api.auth.controllers.AuthenticationController.getStatus
+GET            /api/validate_token                                                                 tech.pegb.backoffice.api.auth.controllers.AuthenticationController.validateToken
+
+POST           /api/v1/core/events                                                                 tech.pegb.backoffice.api.communication.controllers.WalletCoreEventsController.receiveCoreEvents()
+
+# Graph QL endpoint
+POST           /ql                                                                                 tech.pegb.backoffice.GraphQLController.ql
+
+#mock endpoints
+POST           /api/v1/backoffice/events                                                           tech.pegb.backoffice.api.mock.CoreMockController.notifyCore
+PATCH          /api/v1/backoffice/currency_rates/:id                                               tech.pegb.backoffice.api.mock.CoreMockController.updateCurrencyRateStatus(id: Int)
+
+# Swagger API
+GET            /                                                                                   tech.pegb.backoffice.api.swagger.controllers.SwaggerController.redirectDocs
+GET            /swagger.json                                                                       controllers.ApiHelpController.getResources
+GET            /swagger-ui/*file                                                                   tech.pegb.backoffice.api.swagger.controllers.SwaggerController.serveDocs(file)
+
+# Map static resources from the /public folder to the /assets URL path
+GET            /assets/*file                                                                       controllers.Assets.versioned(path="/public", file: Asset)
+
+
+OPTIONS        /*url                                                                               tech.pegb.backoffice.api.cors.OptionsController.options(url: String)
+
+
+GET            /api/aggregations                                                                   tech.pegb.backoffice.api.aggregations.controllers.AmountAggregationsController.getAmountAggregation(aggregation: String, currency_code: String, date_from: Option[tech.pegb.backoffice.api.model.LocalDateTimeFrom], date_to: Option[tech.pegb.backoffice.api.model.LocalDateTimeTo], transaction_type: Option[String], account_type: Option[String], institution: Option[String], user_type: Option[String], not_like_this_account_number: Option[String], frequency: Option[String], step: Option[Int], group_by: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+GET            /api/aggregations/gross_revenue_margin                                              tech.pegb.backoffice.api.aggregations.controllers.AmountAggregationsController.getGrossRevenueMargin(currency_code: String, date_from: Option[tech.pegb.backoffice.api.model.LocalDateTimeFrom], date_to: Option[tech.pegb.backoffice.api.model.LocalDateTimeTo], transaction_type: Option[String], institution: Option[String], frequency: Option[String], frequency_reduction_factor: Option[Float], group_by: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+GET            /api/aggregations/trend_direction                                                   tech.pegb.backoffice.api.aggregations.controllers.AmountAggregationsController.getTrendDirection(currency_code: String, aggregation: String, date_from: Option[tech.pegb.backoffice.api.model.LocalDateTimeFrom], date_to: Option[tech.pegb.backoffice.api.model.LocalDateTimeTo])
+
+GET            /api/revenue                                                                        tech.pegb.backoffice.api.proxy.DashboardProxyController.getAllRevenue(currency_code: String, date_from: Option[tech.pegb.backoffice.api.model.LocalDateTimeFrom], date_to: Option[tech.pegb.backoffice.api.model.LocalDateTimeTo])
+GET            /api/revenue/aggregation/:aggregation                                               tech.pegb.backoffice.api.proxy.DashboardProxyController.getRevenueByAggregationType(aggregation: String, currency_code: String, date_from: Option[tech.pegb.backoffice.api.model.LocalDateTimeFrom], date_to: Option[tech.pegb.backoffice.api.model.LocalDateTimeTo])
+GET            /api/revenue/transaction_totals                                                     tech.pegb.backoffice.api.proxy.DashboardProxyController.getTransactionTotals(currency_code: String, date_from: Option[tech.pegb.backoffice.api.model.LocalDateTimeFrom], date_to: Option[tech.pegb.backoffice.api.model.LocalDateTimeTo])
+
+GET            /api/floats/totals                                                                  tech.pegb.backoffice.api.proxy.DashboardProxyController.getTotalAggregations(currency_code: String)
+GET            /api/floats/institutions                                                            tech.pegb.backoffice.api.proxy.DashboardProxyController.getInstitutionStats(currency_code: String)
+GET            /api/floats/institutions/:institution/trends                                        tech.pegb.backoffice.api.proxy.DashboardProxyController.getInstitutionTrendsGraph(institution: String, currency_code: String, date_from: Option[tech.pegb.backoffice.api.model.LocalDateTimeFrom], date_to: Option[tech.pegb.backoffice.api.model.LocalDateTimeTo], frequency: String)
+PUT            /api/floats/institutions/:institution                                               tech.pegb.backoffice.api.proxy.DashboardProxyController.updatePercentage(institution: String)
+
+#TODO REPLACE WITH PROXY AND ACTUAL ROUTE
+GET            /api/mock/aggregations                                                              tech.pegb.backoffice.api.mock.AggregationMockController.getAmountAggregation(aggregation: String, currency_code: String, date_from: Option[tech.pegb.backoffice.api.model.LocalDateTimeFrom], date_to: Option[tech.pegb.backoffice.api.model.LocalDateTimeTo], transaction_type: Option[String], account_type: Option[String], institution: Option[String], user_type: Option[String],not_like_this_account_number: Option[String], frequency: Option[String], step: Option[Int], group_by: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+GET            /api/mock/aggregations/gross_revenue_margin                                         tech.pegb.backoffice.api.mock.AggregationMockController.getGrossRevenueMargin(currency_code: String, date_from: Option[tech.pegb.backoffice.api.model.LocalDateTimeFrom], date_to: Option[tech.pegb.backoffice.api.model.LocalDateTimeTo], transaction_type: Option[String], institution: Option[String], frequency: Option[String], frequency_reduction_factor: Option[Float], group_by: Option[String], order_by: Option[String], limit: Option[Int], offset: Option[Int])
+
+GET            /api/mock/reports/cffe9e03-3511-11ea-8cef-fa163ed3b165/aggregations                 tech.pegb.backoffice.api.aggregations.controllers.CashFlowController.getCashFlowAggregation(date_from:Option[tech.pegb.backoffice.api.model.LocalDateTimeFrom], date_to:Option[tech.pegb.backoffice.api.model.LocalDateTimeTo], currency: String, institution: Option[String])
